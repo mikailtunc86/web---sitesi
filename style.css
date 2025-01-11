@@ -1,0 +1,126 @@
+/* style.css */
+
+/* Sıfırlama ve Temel Ayarlar */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Trebuchet MS", Arial, sans-serif;
+  }
+  
+  body {
+    background: linear-gradient(to right, #fdfbfb, #ebedee);
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* HEADER: Sitenin Üst Kısmı */
+  header {
+    padding: 1rem;
+  }
+  .site-title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+  
+  /* ANA MENÜ */
+  nav.main-menu {
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: center;  /* Menü öğelerini yatayda ortala */
+    gap: 1.5rem;
+    padding: 1rem 2rem;
+    margin-bottom: 1rem;
+  }
+  nav.main-menu a {
+    text-decoration: none;
+    font-weight: 500;
+    color: #444;
+    padding: 0.3rem 0.6rem;
+    transition: background 0.3s, color 0.3s;
+    border-radius: 4px;
+  }
+  nav.main-menu a:hover {
+    background: #333;
+    color: #fff;
+  }
+  
+  /* ANA İÇERİK */
+  main {
+    flex: 1;
+    margin: 1rem 2rem;
+  }
+  
+  /* Footer */
+  footer {
+    background: #333;
+    color: #fff;
+    text-align: center;
+    padding: 1rem;
+    font-size: 0.85rem;
+    margin-top: 1rem;
+  }
+  
+  /* Mobil Uyumlu Tasarım */
+  @media (max-width: 768px) {
+    body {
+      margin: 0;
+    }
+    nav.main-menu {
+      flex-wrap: wrap;
+    }
+    main {
+      margin: 1rem;
+    }
+  }
+  /* Simülasyon Bölümü */
+.simulation-section {
+  padding: 20px;
+  text-align: center;
+}
+
+.simulation-container {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.simulation-item {
+  width: 300px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  text-align: center;
+  transition: transform 0.3s;
+}
+
+.simulation-item:hover {
+  transform: scale(1.05);
+}
+
+.simulation-item img {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.simulation-item button {
+  padding: 10px 15px;
+  background: #007BFF;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.simulation-item button:hover {
+  background: #0056b3;
+}

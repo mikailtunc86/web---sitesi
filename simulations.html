@@ -1,0 +1,291 @@
+<!DOCTYPE html> 
+<html lang="tr">
+<head><link 
+  rel="stylesheet" 
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" 
+  integrity="sha512-..." 
+  crossorigin="anonymous" 
+  referrerpolicy="no-referrer" 
+/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Geleceğin Simülasyon Dünyası</title>
+
+  <!-- Font Awesome CDN (ikonlar için) -->
+  <link 
+    rel="stylesheet" 
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" 
+    integrity="sha512-..." 
+    crossorigin="anonymous" 
+    referrerpolicy="no-referrer" 
+  />
+
+  <!-- Dilersen style.css'e taşıyabilirsin; burada inline gösteriliyor. -->
+  <style>
+    /* Sıfırlama ve Temel Ayarlar */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Trebuchet MS", Arial, sans-serif;
+    }
+
+    /* Sayfa Arkaplanı: Yıldızlı / uzay hissi */
+    body {
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: #000;
+      background: radial-gradient(circle at top, rgba(0,0,0,0.9) 0%, #000 100%) no-repeat;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Yıldız efektleri için pseudo-element */
+    body::before {
+      content: "";
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      background:
+        radial-gradient(#fff 1px, transparent 1px) 0 0,
+        radial-gradient(#fff 1px, transparent 1px) 0 0;
+      background-size: 20px 20px;
+      background-position: 0 0, 10px 10px;
+      opacity: 0.05;
+      animation: moveStars 60s linear infinite;
+    }
+    @keyframes moveStars {
+      from { transform: translateY(0); }
+      to   { transform: translateY(-50%); }
+    }
+
+    /* HEADER */
+    header {
+      text-align: center;
+      padding: 2rem 1rem 1rem 1rem;
+      position: relative; /* Geri ikonunu yerleştirmek için relative */
+      z-index: 2;
+    }
+
+    /* Geri dön ikonu (sol üst köşede) */
+    .back-home {
+      position: absolute;
+      left: 1rem;
+      top: 1rem;
+      color: #fff;
+      text-decoration: none;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: color 0.3s, transform 0.3s;
+    }
+    .back-home:hover {
+      color: #ff6;
+      transform: scale(1.05);
+    }
+
+    header h1 {
+      font-size: 2.2rem;
+      color: #fff;
+      margin-bottom: 1rem;
+      letter-spacing: 1px;
+    }
+    header p {
+      font-size: 1rem;
+      color: #ccc;
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* ANA İÇERİK */
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-size: 1.8rem;
+      text-align: center;
+      margin-bottom: 1rem;
+      color: #fffa;
+    }
+
+    /* Simülasyon Kartları: Grid Düzeni */
+    .simulation-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .sim-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+      position: relative;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .sim-card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: repeating-linear-gradient(
+        45deg,
+        rgba(255,255,255,0.02),
+        rgba(255,255,255,0.02) 10px,
+        transparent 10px,
+        transparent 20px
+      );
+      pointer-events: none; 
+    }
+
+    .sim-card:hover {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+      z-index: 2;
+    }
+
+    .sim-card h3 {
+      font-size: 1.3rem;
+      color: #fff;
+    }
+    .sim-card p {
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: #ccc;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.3rem 0.6rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      margin-right: 0.5rem;
+      color: #000;
+      background: #ddd;
+    }
+    .badge.biyoloji { background: #5df05d; color: #000; }
+    .badge.yapay-zeka { background: #5dc1f0; color: #000; }
+    .badge.arkeoloji { background: #f0d45d; color: #000; }
+
+    .sim-card a {
+      align-self: flex-start;
+      text-decoration: none;
+      color: #ff6;
+      font-weight: 600;
+      padding-top: 0.5rem;
+      transition: color 0.2s;
+    }
+    .sim-card a:hover {
+      color: #fff;
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 1rem;
+      color: #777;
+      font-size: 0.8rem;
+      background: rgba(0,0,0,0.5);
+    }
+
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 1.8rem;
+      }
+      .sim-card {
+        padding: 1rem;
+      }
+      .back-home {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header (Geri ikonunu ekledik) -->
+  <header>
+    <!-- Geri anasayfaya dönmek için ikon -->
+    <a href="index.html" class="back-home">
+      <i class="fas fa-arrow-left"></i> <!-- İkon (ok) -->
+      <span>Anasayfa</span>
+    </a>
+
+    <h1>Geleceğin Simülasyon Dünyası</h1>
+    <p>
+      Bilimin, sanatın ve teknolojinin kesiştiği, hayal gücünün gerçeğe 
+      dönüştüğü alanımıza hoş geldiniz. Bu sayfa, sizi interaktif bir 
+      bilimsel yolculuğa çıkaracak.
+    </p>
+  </header>
+
+  <!-- Ana İçerik -->
+  <main>
+    <h2 class="section-title">Simülasyonlar</h2>
+
+    <!-- YENİ: Burada yalnızca “Simülasyon bölümü halen aktif değildir...” uyarısını ekliyoruz -->
+    <p style="color: #ff6; text-align: center; font-weight: bold; margin-bottom: 1.5rem;">
+      Simülasyon bölümü halen aktif değildir ve çok yakında aktif olacaktır!
+    </p>
+    <!-- --------------------------------------------------------------------- -->
+
+    <div class="simulation-grid">
+
+      <!-- Biyoloji Örneği -->
+      <div class="sim-card">
+        <h3><span class="badge biyoloji">Biyoloji</span> DNA Replikasyonu</h3>
+        <p>
+          Hücre çekirdeğine sanal bir yolculuk yaparak genetik şifrenin 
+          nasıl kopyalandığını keşfedin.
+        </p>
+        <a href="#">Simülasyonu Başlat</a>
+      </div>
+
+      <!-- Yapay Zeka Örneği -->
+      <div class="sim-card">
+        <h3><span class="badge yapay-zeka">Yapay Zeka</span> Makine Öğrenmesi</h3>
+        <p>
+          Bir veri seti üzerinde tahminler yaparak algoritmaların 
+          çalışma prensibini görün.
+        </p>
+        <a href="#">Simülasyonu Başlat</a>
+      </div>
+
+      <!-- Arkeoloji Örneği -->
+      <div class="sim-card">
+        <h3><span class="badge arkeoloji">Arkeoloji</span> Dijital Kazı Alanı</h3>
+        <p>
+          Sanal kazı yapıp tarihsel buluntuları keşfederek geçmiş 
+          medeniyetlere dokunun.
+        </p>
+        <a href="#">Simülasyonu Başlat</a>
+      </div>
+
+      <!-- İstediğin kadar simülasyon kartı ekleyebilirsin -->
+      <!-- ... -->
+
+    </div>
+  </main>
+
+  <footer>
+    © 2024 Evolis - Tüm Hakları Saklıdır | Hayal gücünü gerçeğe taşı.
+  </footer>
+
+</body>
+</html>

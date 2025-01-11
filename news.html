@@ -1,0 +1,421 @@
+<!DOCTYPE html>  
+<html lang="tr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Evolis Haberler - Sanatsal Dokunuş</title>
+
+  <!-- Google Fonts: Serif + Sans-serif  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link 
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Open+Sans:wght@400;600&display=swap" 
+    rel="stylesheet"
+  >
+
+  <!-- Font Awesome (CDN) - Anasayfa İkonu -->
+  <link 
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    integrity="sha512-..." 
+    crossorigin="anonymous" 
+    referrerpolicy="no-referrer"
+  />
+
+  <style>
+    /* Sıfırlama */
+    * {
+      margin: 0; 
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Gövde: Pastel degrade arka plan + Serif-Sans karışımı tipografi */
+    body {
+      min-height: 100vh;
+      background: linear-gradient(to bottom right, #fdfdfd, #f3f1e9);
+      display: flex;
+      flex-direction: column;
+      font-family: 'Open Sans', sans-serif;
+      color: #444;
+    }
+
+    /* Üst Bölüm (Hero-Style Header) */
+    header {
+      position: relative;
+      text-align: center;
+      padding: 3rem 1rem 4rem;
+      background: #faf8f2;
+      clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    /* Anasayfa İkonu (sol üstte) */
+    .home-icon {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: #444;
+      text-decoration: none;
+      font-size: 1.1rem;
+      font-weight: 600;
+      transition: color 0.3s, transform 0.3s;
+    }
+    .home-icon:hover {
+      color: #a2653d;
+      transform: scale(1.05);
+    }
+
+    /* Büyük Başlık */
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      color: #333;
+      margin-bottom: 1rem;
+    }
+
+    /* Slogan veya Alt Başlık */
+    header p.slogan {
+      max-width: 600px;
+      margin: 0 auto;
+      color: #666;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    /* Ana İçerik */
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      max-width: 1200px;
+      margin: -3rem auto 0; 
+      padding: 0 1rem 2rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Öne Çıkan Haber (Manşet) */
+    .featured-news {
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* 
+      EKLEDİK: Manşet resmi 
+      "haber-1.jpg" boyutu büyükse
+      max-height ile sınırlayıp 
+      obje-kırpma (cover) yapıyoruz
+    */
+    .featured-image {
+      width: 100%;
+      max-height: 300px; /* Manşet resmini 300px ile sınırlıyoruz */
+      overflow: hidden;
+    }
+    .featured-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; 
+      display: block;
+    }
+
+    .featured-content {
+      padding: 1.5rem;
+    }
+    .featured-content h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      color: #333;
+      margin-bottom: 0.5rem;
+    }
+    .featured-meta {
+      color: #999;
+      font-size: 0.85rem;
+      margin-bottom: 0.5rem;
+    }
+    .featured-content p {
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+    .btn-read {
+      background: #a2653d;
+      color: #fff;
+      border-radius: 4px;
+      padding: 0.6rem 1rem;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: background 0.3s;
+    }
+    .btn-read:hover {
+      background: #834f2e;
+    }
+
+    /* Diğer Haberler (Grid) */
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    /* Haber Kartı */
+    .news-card {
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.07);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .news-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+    }
+
+    /* Haber Kartı Görseli - Boyut Sınırlaması */
+    .news-image {
+      width: 100%;
+      max-height: 200px; /* Karttaki resmi 200px ile sınırlıyoruz */
+      overflow: hidden;
+    }
+    .news-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Haber Kartı İçerik */
+    .news-content {
+      padding: 1rem 1.2rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .news-content h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      color: #333;
+      margin-bottom: 0.5rem;
+    }
+    .news-meta {
+      font-size: 0.75rem;
+      color: #999;
+      margin-bottom: 0.5rem;
+    }
+    .news-content p {
+      font-size: 0.9rem;
+      color: #555;
+      line-height: 1.5;
+      flex: 1;
+    }
+    .news-content a.btn-read {
+      margin-top: 0.5rem;
+      align-self: flex-start;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #777;
+      padding: 1rem;
+      margin-top: auto;
+    }
+
+    /* Responsive Düzen */
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 2rem;
+      }
+      .home-icon {
+        font-size: 1rem;
+      }
+      .featured-content h2 {
+        font-size: 1.5rem;
+      }
+    }
+
+    /* HABERLER İÇİN MODAL PENCERE STİLİ */
+    .modal {
+      display: none; 
+      position: fixed;
+      z-index: 9999; 
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.5);
+    }
+    .modal-content {
+      background-color: #fff;
+      margin: 5% auto;
+      padding: 2rem;
+      border: 1px solid #888;
+      width: 90%;
+      max-width: 800px;
+      border-radius: 6px;
+      position: relative;
+    }
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 24px;
+      font-weight: bold;
+      cursor: pointer;
+      position: absolute;
+      top: 10px;
+      right: 20px;
+    }
+    .close:hover {
+      color: #000;
+    }
+    .modal-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      margin-bottom: 0.5rem;
+      color: #333;
+    }
+    .modal-date {
+      font-size: 0.85rem;
+      color: #999;
+      margin-bottom: 1rem;
+    }
+    .modal-body {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #444;
+    }
+    .modal-body img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 1rem 0;
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- HEADER (Dalgalı üst bölüm) -->
+  <header>
+    <!-- Anasayfa İkonu -->
+    <a href="index.html" class="home-icon">
+      <i class="fas fa-home"></i>
+      <span>Anasayfa</span>
+    </a>
+
+    <h1>Evolis Haberler</h1>
+    <p class="slogan">
+      Bilimin Ritmini Sanatsal Bir Dokunuşla Hissedin
+    </p>
+  </header>
+
+  <!-- ANA İÇERİK -->
+  <main>
+    
+    <!-- ÖNE ÇIKAN (MANŞET) HABER -->
+    <section class="featured-news">
+      <div class="featured-image">
+        <!-- YENİ DOSYA YOLU (Göreli) + Boşluksuz dosya adı -->
+        <img src="assets/images/haber-1.jpg" alt="Manşet Haberi">
+      </div>
+      <div class="featured-content">
+        <h2>İnsan ve Neandertal Temasını Aydınlatan Antik Genler</h2>
+        <div class="featured-meta">çeviri : mikail Tunç | 06.01.2025</div>
+        <p>
+          Bilim İnsanları, Antik Genleri Kullanarak İnsanlar ile Neandertaller Arasındaki Teması Tahmin Ediyor.
+        </p>
+        <a href="newsdetail-featured.html" class="btn-read">Haberi Oku</a>
+      </div>
+    </section>
+
+    <!-- DİĞER HABERLER (GRID) -->
+    <section class="news-grid">
+
+      <!-- Haber 1 -->
+      <article class="news-card">
+        <!-- Resmi sabitlediğimiz boyut + object-fit cover -->
+        <div class="news-image">
+          <img src="assets/images/haber-2.jpg" alt="Haber 2">
+        </div>
+        <div class="news-content">
+          <h3>NASA Ayda Demiryolu Sistemi Planlarını Açıkladı</h3>
+          <div class="news-meta">çeviri : Mikail Tunç | 05.01.2025</div>
+          <p>
+            Amerikan uzay ajansı NASA, Ay yüzeyinde inşa etmeyi planladığı 
+            bir demiryolu sistemiyle ilgili ayrıntılar paylaşıyor.
+          </p>
+          <a href="newsdetail-haber1.html" class="btn-read">Haberi Oku</a>
+        </div>
+      </article>
+
+      <!-- Haber 2 -->
+      <article class="news-card">
+        <div class="news-image">
+          <img src="assets/images/haber-3.jpg" alt="Haber 3">
+        </div>
+        <div class="news-content">
+          <h3>Araştırma: Antik Amerikalılar Gıda İçin Mamutlara Büyük Ölçüde Bağımlıydı</h3>
+          <div class="news-meta">Çeviri : Mikail Tunç | 20.12.2024</div>
+          <p>
+            Yeni bir araştırma, Kuzey Amerika’da yaşayan ilk insanların mamutlar 
+            ve diğer büyük hayvanlara büyük ölçüde bağımlı olduklarını ortaya koyuyor.
+          </p>
+          <a href="newsdetail-haber2.html" class="btn-read">Haberi Oku</a>
+        </div>
+      </article>
+
+      <!-- Haber 3 -->
+      <article class="news-card">
+        <div class="news-image">
+          <img src="assets/images/haber-4.jpg" alt="Haber 4">
+        </div>
+        <div class="news-content">
+          <h3>2024'ün Öne Çıkan Teknoloji Haberleri</h3>
+          <div class="news-meta">Çeviri : Mikail Tunç | 03.01.2025</div>
+          <p>
+            2024 boyunca, yapay zeka (AI) sistemlerinin gelişimine tanık olduk ve teknoloji 
+            şirketlerine karşı yeni yasal adımlar atıldı. İşte 2024'te dikkat çeken bazı 
+            büyük teknoloji hikayelerinin özeti:
+          </p>
+          <a href="newsdetail-haber3.html" class="btn-read">Haberi Oku</a>
+        </div>
+      </article>
+      <!-- Ek haber kartları eklenebilir... -->
+
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    © 2024 Evolis - Tüm Hakları Saklıdır | Sanat ve Bilim El Ele
+  </footer>
+
+  <!-- HABERLER İÇİN MODAL PENCERE -->
+  <div id="newsModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2 id="newsTitle" class="modal-title"></h2>
+      <div id="newsDate" class="modal-date"></div>
+      <div id="newsBody" class="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT (Modal Kodları Devre Dışı) -->
+  <script>
+    // KODU BOZMUYORUZ - Sadece devre dışı
+  </script>
+</body>
+</html>

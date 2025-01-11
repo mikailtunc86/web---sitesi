@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Evolis - Bilim ve Gelecek</title>
+
+  <!-- Sizin CSS kodlarınız (style) -->
+  <style>
+    /* Sıfırlama ve Temel Ayarlar */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Trebuchet MS", Arial, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to right, #fdfdfb, #ebedee); /* Hafif gradient arka plan */
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* HEADER: Sitenin Üst Kısmı */
+    header {
+      padding: 1rem;
+    }
+    .site-title {
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    /* ANA MENÜ */
+    nav.main-menu {
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      padding: 1rem 2rem;
+    }
+    nav.main-menu a {
+      text-decoration: none;
+      font-weight: 500;
+      color: #444;
+      padding: 0.3rem 0.6rem;
+      transition: background 0.3s, color 0.3s;
+      border-radius: 4px;
+    }
+    nav.main-menu a:hover {
+      background: #333;
+      color: #fff;
+    }
+
+    /* ANA İÇERİK: Solda (Kitap Analizi x2, Quiz, Video/Podcast) - Sağda (Köşe Yazıları + Kullanıcı Düşünceleri) */
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: row;
+      margin: 1rem 2rem;
+      gap: 2rem;
+    }
+    .left-content {
+      flex: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+    .sidebar {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .sidebar-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      border-bottom: 2px solid #666;
+      margin-bottom: 0.5rem;
+      padding-bottom: 0.3rem;
+    }
+
+    /* Köşe Yazıları Kartları */
+    .kose-yazisi {
+      background: #fff;
+      border-radius: 6px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      padding: 1rem;
+      display: flex;
+      gap: 1rem;
+      transition: transform 0.3s;
+    }
+    .kose-yazisi:hover {
+      transform: scale(1.01);
+    }
+    .author-photo img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 50%;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+    .author-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .author-name {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    .kose-summary {
+      font-size: 0.9rem;
+      color: #555;
+      line-height: 1.4;
+    }
+    .kose-summary a {
+      color: #007BFF;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+    .kose-summary a:hover {
+      color: #0056b3;
+    }
+
+    /* Footer */
+    footer {
+      background: #333;
+      color: #fff;
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.85rem;
+    }
+    @media (max-width: 768px) {
+      main {
+        flex-direction: column;
+      }
+      .kose-yazisi {
+        flex-direction: row;
+      }
+    }
+
+    /* KITAP ANALİZİ (350x350) */
+    .book-analysis {
+      background: #fff;
+      border-radius: 6px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      width: 350px !important;   /* Uzatılmış genişlik */
+      height: 350px !important;  /* Uzatılmış yükseklik */
+      overflow-y: auto !important; /* İçerik taşarsa scrollbar */
+    }
+    .book-analysis h2 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      border-bottom: 2px solid #666;
+      padding-bottom: 0.3rem;
+    }
+    .book-analysis p {
+      font-size: 0.9rem;
+      color: #555;
+    }
+    .book-analysis-button {
+      background: #007BFF;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 0.6rem 1rem;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      width: fit-content;
+      transition: background 0.3s;
+    }
+    .book-analysis-button:hover {
+      background: #0056b3;
+    }
+
+    /* KITAP ANALİZ BÖLÜMLERİNİ YAN YANA GETİRMEK İÇİN OLUŞTURULAN KAPSAYICI */
+    .book-analysis-row {
+      display: flex;
+      flex-direction: row;
+      gap: 2rem;
+    }
+
+    /* QUIZ */
+    .quiz-section {
+      background: #fff;
+      border-radius: 6px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+    .quiz-section h2 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      border-bottom: 2px solid #666;
+      padding-bottom: 0.3rem;
+    }
+    .quiz-question {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    .quiz-answer {
+      display: none;
+      font-size: 0.9rem;
+      color: #555;
+      margin-top: 0.3rem;
+      border-left: 4px solid #007BFF;
+      padding-left: 0.5rem;
+    }
+    .quiz-button {
+      background: #007BFF;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 0.6rem 1rem;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      width: fit-content;
+      transition: background 0.3s;
+    }
+    .quiz-button:hover {
+      background: #0056b3;
+    }
+
+    /* VIDEO & PODCAST BÖLÜMÜ */
+    .media-section {
+      background: #fff;
+      border-radius: 6px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .media-section h2 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      border-bottom: 2px solid #666;
+      padding-bottom: 0.3rem;
+    }
+    .media-item {
+      margin-bottom: 1rem;
+      background: #fafafa;
+      padding: 0.8rem;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+    }
+    .media-title {
+      font-weight: 600;
+      margin: 0.5rem 0;
+    }
+    .media-description {
+      font-size: 0.9rem;
+      color: #555;
+      line-height: 1.4;
+      margin-bottom: 0.5rem;
+    }
+    .media-item iframe {
+      width: 560px;
+      height: 315px;
+      max-width: 100%;
+      display: block;
+      margin: 0 auto; /* Ortalamak isterseniz */
+    }
+    .media-item audio {
+      width: 100%;
+      outline: none;
+    }
+    .like-dislike {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+      color: #555;
+    }
+    .like-dislike i {
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+    .like-dislike i:hover {
+      color: #007BFF;
+    }
+    .likeCount,
+    .dislikeCount {
+      margin-right: 1rem;
+    }
+
+    .podcast-comments {
+      margin-top: 1rem;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 0.6rem;
+    }
+    .podcast-comments h4 {
+      font-size: 1rem;
+      margin-bottom: 0.4rem;
+      font-weight: 600;
+    }
+    .comment-input {
+      width: 100%;
+      resize: vertical;
+      padding: 0.4rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-family: inherit;
+      margin-bottom: 0.4rem;
+    }
+    .btn-comment {
+      background: #28a745;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 0.4rem 0.8rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .btn-comment:hover {
+      background: #1e7e34;
+    }
+    .comment-list {
+      margin-top: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .comment-item {
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 0.5rem;
+      font-size: 0.85rem;
+    }
+
+    /* KULLANICI DÜŞÜNCE ALANI (Sağdaki) */
+    .user-thoughts {
+      background: #fff;
+      border-radius: 6px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .user-thoughts h2 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      border-bottom: 2px solid #666;
+      padding-bottom: 0.3rem;
+      margin-bottom: 0.5rem;
+    }
+    .thought-form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .thought-form textarea {
+      width: 100%;
+      min-height: 80px;
+      resize: vertical;
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      font-family: inherit;
+    }
+    .thought-form button {
+      background: #007BFF;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 0.5rem 1rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      align-self: flex-start;
+    }
+    .thought-form button:hover {
+      background: #0056b3;
+    }
+    .thought-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+    .thought-item {
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 0.6rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+    .thought-text {
+      font-size: 0.9rem;
+      color: #333;
+      line-height: 1.4;
+    }
+    .thought-actions {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      font-size: 0.9rem;
+      color: #666;
+    }
+    .thought-actions i {
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+    .thought-actions i:hover {
+      color: #007BFF;
+    }
+    .see-all-thoughts {
+      text-decoration: none;
+      color: #007BFF;
+      font-size: 0.85rem;
+      font-weight: 600;
+      align-self: flex-end;
+      margin-top: 0.5rem;
+      transition: color 0.3s;
+    }
+    .see-all-thoughts:hover {
+      color: #0056b3;
+    }
+
+    /* MODAL PENCERELER (Köşe Yazısı ve Kitap Analizi için) */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.5);
+    }
+    .modal-content {
+      background-color: #fff;
+      margin: 10% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 600px;
+      border-radius: 6px;
+      position: relative;
+    }
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 24px;
+      font-weight: bold;
+      cursor: pointer;
+      position: absolute;
+      right: 20px;
+      top: 10px;
+    }
+    .close:hover {
+      color: #000;
+    }
+    .modal-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .modal-body {
+      font-size: 0.95rem;
+      line-height: 1.4;
+      color: #444;
+    }
+
+    /* ORTA KISMA KÜP ŞEKLİNDE ÇERÇEVE (3D resim için) */
+    .center-cube {
+      flex: 0 0 250px;
+      width: 250px;
+      height: 250px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 2px dashed #999;
+      background-color: #f9f9f9;
+      margin: 2rem 0;
+    }
+  </style>
+
+  <!-- 3D kütüphanesi (model-viewer) import -->
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+</head>
+<body>
+
+  <!-- HEADER: Site Başlığı (Ortada) -->
+  <header>
+    <h1 class="site-title">Evolis</h1>
+  </header>
+
+  <!-- ANA MENÜ: Yatay Düzende -->
+  <nav class="main-menu">
+    <a href="index.html">Anasayfa</a>
+    <a href="news.html">Haberler</a>
+    <a href="articles.html">Makaleler</a>
+    <a href="simulations.html">Simülasyonlar</a>
+    <a href="about.html">Hakkında</a>
+    <a href="contact.html">İletişim</a>
+  </nav>
+
+  <!-- ANA İÇERİK: Solda (Kitap Analizi x2, Quiz, Video/Podcast) - Sağda (Köşe Yazıları, Kullanıcı Düşünceleri) -->
+  <main>
+    <!-- SOL KISIM -->
+    <section class="left-content">
+      
+      <!-- 2 KİTAP ANALİZİNİ YAN YANA GETİRMEK İÇİN OLUŞTURULAN KAPSAYICI -->
+      <div class="book-analysis-row">
+        <!-- 1. KİTAP ANALİZİ -->
+        <div class="book-analysis">
+          <h2>Kitap Analizi</h2>
+          <p>
+            Burada popüler bilim kitaplarını inceliyoruz.  
+            Farklı alanlardaki kitapların özetleri, yazar yorumları ve 
+            incelemeleri bu bölümde yer alacak.
+          </p>
+          <p>
+            Analiz: <br/>
+            <strong>“Ulusların Zenginliği” - Adam Smith</strong><br/>
+            Adam Smith’in <em>Ulusların Zenginliği (1776),</em> modern ekonomik düşüncenin temellerini atan 
+            ve bireysel çıkarların piyasa mekanizmalarıyla toplumsal refaha nasıl dönüştüğünü 
+            açıklayan çığır açıcı bir eserdir. İşbölümü ve serbest ticaret kavramlarıyla serbest piyasa 
+            ekonomisinin ilkelerini ele alan bu eser, dönemin ekonomik sistemlerine eleştirel bir 
+            bakış sunar. Bu raporda, Smith’in temel kavramları ve günümüz ekonomisine etkileri 
+            incelenecektir.
+          </p>
+          <!-- Butona index=0 veriyoruz -->
+          <button class="book-analysis-button" data-index="0">Tüm Analizleri Gör</button>
+        </div>
+
+        <!-- 2. KİTAP ANALİZİ -->
+        <div class="book-analysis">
+          <h2>Kitap Analizi</h2>
+          <p>
+            Burada popüler bilim kitaplarını inceliyoruz.  
+            Farklı alanlardaki kitapların özetleri, yazar yorumları ve 
+            incelemeleri bu bölümde yer alacak.
+          </p>
+          <p>
+            Analiz: <br/>
+            <strong>“Sosyal Teori ve Sosyoloji” - Stephen P. Turner</strong><br/>
+            Stephen P. Turner’ın <em> Sosyal Teori ve Sosyoloji adlı eseri,</em> sosyolojinin teorik temellerini tarihsel bir 
+            bağlamda ele alarak modern toplumsal yapılar üzerindeki etkilerini sorgulayan kapsamlı bir çalışmadır. 
+            Eser, klasik sosyal teorilerin sınırlarını eleştirirken, bilgi, otorite ve dayanışma gibi temel kavramların 
+            çağdaş toplumsal sorunlara uygulanabilirliğini derinlemesine inceler. Turner, sosyal teorinin 
+            sınırlamalarını eleştirirken, teorik araçların çağdaş toplumsal sorunları anlamada ve çözüm üretmede 
+            yetersiz kaldığını vurgular. 
+          </p>
+          <!-- Butona index=1 veriyoruz -->
+          <button class="book-analysis-button" data-index="1">Tüm Analizleri Gör</button>
+        </div>
+      </div>
+
+      <!-- QUIZ BÖLÜMÜ -->
+      <div class="quiz-section">
+        <h2>Bugünün Sorusu</h2>
+        <div class="quiz-question">
+          “Yapay zekanın temelleri hangi konferansta atılmıştır?”
+        </div>
+        <button class="quiz-button">Cevabı Göster</button>
+        <div class="quiz-answer">
+          Cevap: 1956’daki Dartmouth Konferansı, yapay zekanın resmi başlangıcı olarak kabul edilir.
+        </div>
+      </div>
+
+      <!-- VIDEO & PODCAST BÖLÜMÜ -->
+      <div class="media-section">
+        <h2>Video & Podcast</h2>
+        <!-- YouTube Video (iframe) -->
+        <div class="media-item" id="videoItem">
+          <div class="media-title">YouTube: İnsan Evrimi Belgeseli</div>
+          <div class="media-description">İnsanlık tarihinin evrimsel sürecini anlatan kapsamlı belgesel.</div>
+          <iframe
+            width="560" 
+            height="315"
+            src="https://www.youtube.com/embed/EXb1a-ZXSZA"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+        </div>
+
+        <!-- Podcast -->
+        <div class="media-item" id="podcastItem">
+          <div class="media-title">Podcast: Mars Kolonisi</div>
+          <div class="media-description">Gelecekteki Mars yerleşimleri hakkında keyifli bir sohbet.</div>
+          <audio controls>
+            <source src="podcasts/mars-kolonisi.mp3" type="audio/mpeg">
+            Tarayıcınız audio etiketini desteklemiyor.
+          </audio>
+
+          <!-- Beğen/Beğenme -->
+          <div class="like-dislike">
+            <i class="fas fa-thumbs-up" id="podcastLikeBtn"></i>
+            <span class="likeCount" id="podcastLikeCount">0</span>
+            <i class="fas fa-thumbs-down" id="podcastDislikeBtn"></i>
+            <span class="dislikeCount" id="podcastDislikeCount">0</span>
+          </div>
+
+          <!-- Podcast Yorumları -->
+          <div class="podcast-comments">
+            <h4>Yorumlar</h4>
+            <textarea class="comment-input" id="podcastCommentInput" placeholder="Yorumunuz..."></textarea>
+            <button class="btn-comment" id="podcastCommentBtn">Gönder</button>
+            <div class="comment-list" id="podcastCommentList">
+              <!-- Yorumlar buraya eklenecek -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ORTASINDA KÜP ŞEKLİNDE 3D MODEL GÖRÜNTÜLEYİCİ -->
+    <div class="center-cube">
+      <!-- Orijinal <img> korunuyor ama görünmesin (display:none) -->
+      <img
+        src="assets/images/brain.glb"
+        alt="3D placeholder"
+        style="max-width:100%; height:auto; display:none;"
+      />
+      <!-- Google <model-viewer> ile 3D gösterim -->
+      <model-viewer
+        src="assets/images/brain.glb"
+        alt="3D placeholder"
+        auto-rotate
+        camera-controls
+        style="width:250px; height:250px;"
+      >
+      </model-viewer>
+    </div>
+
+    <!-- SAĞ TARAFTAKİ KÖŞE YAZILARI + KULLANICI DÜŞÜNCELERİ -->
+    <aside class="sidebar">
+      <div class="sidebar-title">Köşe Yazıları</div>
+
+      <!-- Köşe Yazısı 1 -->
+      <div class="kose-yazisi">
+        <div class="author-photo">
+          <img src="assets/images/portre-1.jpg" alt="Yazar Fotoğrafı">
+        </div>
+        <div class="author-info">
+          <div class="author-name">Mikail Tunç</div>
+          <div class="kose-summary">
+            <p>
+              “İnsanlık tarihine baktığımızda, bizi diğer canlılardan ayıran en önemli özelliklerden biri dil yeteneğimizdir. 
+              Dil, yalnızca bir iletişim aracı olmanın ötesinde, insan evriminin yapı taşlarından biri olarak karşımıza çıkar...
+            </p>
+            <a href="#" class="open-modal" data-article="kose1">Tamamını Oku</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Köşe Yazısı 2 -->
+      <div class="kose-yazisi">
+        <div class="author-photo">
+          <img src="assets/images/portre-1.jpg" alt="Yazar Fotoğrafı">
+        </div>
+        <div class="author-info">
+          <div class="author-name">Mikail Tunç</div>
+          <div class="kose-summary">
+            <p>
+              “Mimari, insanlığın hayatta kalma mücadelesinin bir yan ürünü olarak ortaya çıksa da 
+              zamanla medeniyetlerin kimliğini belirleyen bir sanat dalına dönüştü. 
+              Tarih öncesi dönemlerin yalın yapıları...
+            </p>
+            <a href="#" class="open-modal" data-article="kose2">Tamamını Oku</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- KULLANICI DÜŞÜNCE BÖLÜMÜ -->
+      <div class="user-thoughts">
+        <h2>Düşünceleriniz</h2>
+        <!-- Form -->
+        <form class="thought-form">
+          <textarea placeholder="Fikriniz / Yorumunuz..." required></textarea>
+          <button type="submit">Gönder</button>
+        </form>
+
+        <!-- Gönderilen Yorumlar -->
+        <div class="thought-list" id="thoughtList">
+          <!-- Yeni yorumlar buraya eklenecek -->
+        </div>
+
+        <!-- Tüm Yorumları Gör -->
+        <a href="user-thoughts.html" class="see-all-thoughts">Tüm Yorumları Gör</a>
+      </div>
+    </aside>
+  </main>
+
+  <!-- ALT ALAN (Footer) -->
+  <footer>
+    © 2024 Evolis. Tüm hakları saklıdır.
+  </footer>
+
+  <!-- KÖŞE YAZILARI İÇİN MODAL PENCERE -->
+  <div id="koseModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2 class="modal-title"></h2>
+      <div class="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- KİTAP ANALİZİ İÇİN MODAL PENCERE -->
+  <div id="bookModal" class="modal">
+    <div class="modal-content">
+      <span class="close close-book">&times;</span>
+      <h2 class="modal-title" id="bookModalTitle">Adam Smith - Ulusların Zenginliği (Derinlemesine Analiz Raporu)</h2>
+      <div class="modal-body" id="bookModalBody" style="max-height: 70vh; overflow-y: auto;">
+        <!-- Varsayılan olarak 1. analiz metni, JS’de 2. analizde güncellenecek -->
+        <h3>1. Giriş</h3>
+        <img src="assets/images/analiz-1.jpg" alt="ulusların zenginliği">
+        <p>
+          Adam Smith’in <em>Ulusların Zenginliği (1776)</em> adlı eseri, modern ekonomik düşüncenin
+          temellerini atan ve bireysel çıkarların piyasa mekanizmaları aracılığıyla toplumsal
+          refaha nasıl dönüştüğünü sistematik bir şekilde açıklayan çığır açıcı bir çalışmadır.
+          <!-- ... (JS ile içeriği genişletilecektir) -->
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2) Harici JS dosyaları (kodlarınızı oraya taşıdık) -->
+  <script src="js/modelViewerSetup.js"></script>
+</body>
+</html>

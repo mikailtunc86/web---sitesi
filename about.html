@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Evolis - Hakkımızda</title>
+
+  <style>
+    /* Sıfırlama ve Temel Ayarlar */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      font-family: "Trebuchet MS", Arial, sans-serif;
+      background: linear-gradient(to right, #fdfbfb, #ebedee);
+      color: #333;
+    }
+
+    /* HEADER ve NAV (Aynı yapı) */
+    header {
+      padding: 1rem;
+    }
+    .site-title {
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+    nav.main-menu {
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      padding: 1rem 2rem;
+    }
+    nav.main-menu a {
+      text-decoration: none;
+      font-weight: 500;
+      color: #444;
+      padding: 0.3rem 0.6rem;
+      transition: background 0.3s, color 0.3s;
+      border-radius: 4px;
+    }
+    nav.main-menu a:hover {
+      background: #333;
+      color: #fff;
+    }
+
+    /* ANA İÇERİK: Hakkımızda */
+    main {
+      flex: 1;
+      margin: 1rem 2rem 2rem;
+      background: #fff url("https://via.placeholder.com/1200x800/eee/fff?text=Parşömen+Dokusu") repeat; 
+      /* Yukarıdaki placeholder, parşömen benzeri bir dokuyu simgeler. İsterseniz gerçek bir doku ekleyebilirsiniz. */
+      background-size: 600px 600px;
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+    .about-title {
+      text-align: center;
+      font-family: Georgia, "Times New Roman", serif; /* Serif hissi */
+      font-size: 1.8rem;
+      color: #222;
+      margin-bottom: 1rem;
+    }
+    .about-subtitle {
+      text-align: center;
+      font-size: 1rem;
+      color: #666;
+      margin-bottom: 2rem;
+    }
+
+    /* İçerik Grid: Misyon, Hedefler, Kurucunun Mesajı */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .about-section {
+      background: rgba(255,255,255,0.8);
+      border-radius: 4px;
+      padding: 1rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .about-section h2 {
+      font-family: Georgia, serif;
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+      color: #333;
+      border-bottom: 2px solid #ccc;
+      padding-bottom: 0.3rem;
+    }
+    .about-section p {
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: #555;
+    }
+
+    /* Kurucunun Mesajı İçin Ek Tasarım */
+    .founder-message {
+      margin-top: 1rem;
+      font-style: italic;
+      border-left: 3px solid #aaa;
+      padding-left: 0.7rem;
+      color: #444;
+    }
+
+    /* Footer */
+    footer {
+      background: #333;
+      color: #fff;
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.85rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .about-grid {
+        grid-template-columns: 1fr; 
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header>
+    <h1 class="site-title">Evolis</h1>
+  </header>
+
+  <!-- NAVİGASYON -->
+  <nav class="main-menu">
+    <a href="index.html">Anasayfa</a>
+    <a href="news.html">Haberler</a>
+    <a href="articles.html">Makaleler</a>
+    <a href="simulations.html">Simülasyonlar</a>
+    <a href="about.html">Hakkında</a>
+    <a href="contact.html">İletişim</a>
+  </nav>
+
+  <!-- ANA İÇERİK: Hakkımızda -->
+  <main>
+    <div class="about-title">Evolis - Geçmişin Işığı, Geleceğin Haritası</div>
+    <div class="about-subtitle">
+      İnsanlığın tarihsel mirasından ilham alarak, 
+      geleceği inşa etmek isteyen bir platform.
+    </div>
+
+    <div class="about-grid">
+      <!-- Sol Sütun: Misyon, Hedefler -->
+      <div class="about-section">
+        <h2>Misyonumuz</h2>
+        <p>
+          Geçmişin bilimsel mirasını anlayarak geleceği şekillendirmeye katkı sağlamak.
+          Bilim, yapay zeka ve tarihöncesi arkeolojisini harmanlayarak, 
+          öğrenme yolculuğunu yeni bir boyuta taşımak.
+        </p>
+      </div>
+
+      <div class="about-section">
+        <h2>Hedeflerimiz</h2>
+        <p>
+          - Biyoloji, Yapay Zeka ve Arkeoloji gibi bilim alanlarını bir araya getirmek.<br>
+          - Kullanıcılara evrimsel ve teknolojik gelişmelerin iç yüzünü anlatmak.<br>
+          - İnsanlığın öğrenme ve keşif yolculuğuna rehberlik etmek.
+        </p>
+      </div>
+
+      <!-- Sağ Sütun: Kurucunun Sözleri -->
+      <div class="about-section" style="grid-column: span 2;">
+        <h2>Kurucunun Sözleri</h2>
+        <p>
+          Merhaba, ben Mikail Tunç. 26 yaşında olup, Almanya’da Paderborn Üniversitesi’nde yüksek lisans eğitimime devam ediyorum. Akademik hedeflerimi gerçekleştirmek ve kariyerimde sağlam bir temel oluşturmak adına, bu süreç benim için önemli bir dönüm noktası niteliğinde. 
+          Tarihöncesi arkeoloji ile yapay zeka arasında köprü kurmayı hedefliyor; 
+          bilimin moderniteyi inşa ettiğine ve geçmişin, geleceğe ışık tuttuğuna 
+          inanıyorum.
+        </p>
+        <p class="founder-message">
+          “Evolis, insanlığın geçmişteki hikayelerinden ilham alarak geleceği 
+          inşa etme yolunda bir rehberdir. Bilim, teknoloji ve tarih arasındaki 
+          sınırları ortadan kaldırarak, hep birlikte daha iyi bir dünya inşa 
+          etmeyi hedefliyoruz.”
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    © 2024 Evolis. Tüm hakları saklıdır.
+  </footer>
+</body>
+</html>

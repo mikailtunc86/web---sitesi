@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kullanıcı Düşünceleri</title>
+  <!-- Google Fonts -->
+  <link 
+    href="https://fonts.googleapis.com/css2?family=Trebuchet+MS&display=swap" 
+    rel="stylesheet"
+  >
+  <!-- Font Awesome (CDN) -->
+  <link 
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    integrity="..." 
+    crossorigin="anonymous"
+  />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Trebuchet MS', Arial, sans-serif;
+      background: #fdfbfb;
+      color: #333;
+    }
+    header {
+      background: #fafafa;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 {
+      font-size: 1.5rem;
+      margin: 0;
+    }
+    .back-link {
+      text-decoration: none;
+      color: #333;
+      border: 1px solid #ccc;
+      padding: 0.4rem 0.8rem;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      transition: background 0.3s, transform 0.3s;
+    }
+    .back-link:hover {
+      background: #ddd;
+      transform: scale(1.05);
+    }
+
+    main {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+
+    /* Yeni düşünce ekleme formu */
+    .new-thought-form {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+    }
+    .new-thought-form h2 {
+      margin-bottom: 0.5rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+    .new-thought-input {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: vertical;
+      font-size: 0.9rem;
+      font-family: inherit;
+      min-height: 60px;
+      margin-bottom: 0.5rem;
+    }
+    .btn-submit {
+      background: #007BFF;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 0.5rem 1rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .btn-submit:hover {
+      background: #0056b3;
+    }
+
+    .thought-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .thought-item {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+      position: relative;
+    }
+    .thought-text {
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+    .thought-actions {
+      display: flex;
+      gap: 1.2rem;
+      align-items: center;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    /* Beğeni/Beğenmeme Sayıları */
+    .like-counter, .dislike-counter {
+      margin-left: 0.2rem;
+      font-size: 0.85rem;
+      color: #333;
+    }
+
+    .thought-actions i {
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+    .thought-actions i:hover {
+      color: #007BFF;
+    }
+
+    /* Yorumlar */
+    .comments-section {
+      margin-top: 0.5rem;
+      padding-left: 1rem;
+      border-left: 3px solid #eee;
+    }
+    .comment-item {
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 0.6rem;
+      margin-top: 0.6rem;
+      font-size: 0.9rem;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    }
+    .comment-form {
+      display: none;
+      margin-top: 0.5rem;
+    }
+    .comment-form textarea {
+      width: 100%;
+      min-height: 50px;
+      resize: vertical;
+      padding: 0.4rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-family: inherit;
+    }
+    .btn-comment-submit {
+      background: #28a745;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 0.4rem 0.8rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 0.4rem;
+      transition: background 0.3s;
+    }
+    .btn-comment-submit:hover {
+      background: #1e7e34;
+    }
+    .close-comment-form {
+      cursor: pointer;
+      color: #999;
+      float: right;
+      font-size: 0.9rem;
+      margin-top: -1.2rem;
+      margin-right: 0.3rem;
+      position: relative;
+    }
+    .close-comment-form:hover {
+      color: #333;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #777;
+      background: #f9f9f9;
+      padding: 1rem;
+      margin-top: 2rem;
+      border-top: 1px solid #ddd;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Tüm Kullanıcı Düşünceleri</h1>
+    <a href="index.html" class="back-link">← Anasayfa</a>
+  </header>
+
+  <main>
+    <!-- Yeni düşünce ekleme formu (Twitter benzeri) -->
+    <div class="new-thought-form">
+      <h2>Ne düşünüyorsun?</h2>
+      <textarea class="new-thought-input" placeholder="Fikrini paylaş..." required></textarea>
+      <button class="btn-submit" id="addThoughtBtn">Paylaş</button>
+    </div>
+
+    <!-- Mevcut düşünceler listesi -->
+    <div class="thought-container" id="allThoughts">
+      <!-- Başlangıçta örnek olarak 2-3 düşünce ekleyebilirsiniz; aşağıda JS ile de ekleriz -->
+    </div>
+  </main>
+
+  <footer>
+    © 2024 Evolis - Tüm Hakları Saklıdır
+  </footer>
+
+  <script>
+    // Basit veri yapısı: Her thought bir obje
+    // {
+    //   text: '...', 
+    //   likes: 0, 
+    //   dislikes: 0,
+    //   comments: [ { text: '...' }, { text: '...' } ]
+    // }
+    let thoughts = [
+      {
+        text: "Benim ilk yorumum. Bu site harika!",
+        likes: 2,
+        dislikes: 0,
+        comments: [
+          { text: "Katılıyorum, gerçekten harika!" },
+          { text: "Bence de çok faydalı içerikler var." }
+        ]
+      },
+      {
+        text: "Yeni makaleler bekliyorum, lütfen daha sık güncelleme yapın.",
+        likes: 1,
+        dislikes: 0,
+        comments: []
+      }
+    ];
+
+    const allThoughtsEl = document.getElementById('allThoughts');
+    const newThoughtInput = document.querySelector('.new-thought-input');
+    const addThoughtBtn = document.getElementById('addThoughtBtn');
+
+    // 1) Sayfa ilk yüklendiğinde var olan thoughts listesini ekrana bas
+    function renderThoughts() {
+      allThoughtsEl.innerHTML = ''; // Önce temizle
+      thoughts.forEach((thought, index) => {
+        // Her düşünce için HTML kartı oluştur
+        const div = document.createElement('div');
+        div.className = 'thought-item';
+
+        // thought text
+        const textDiv = document.createElement('div');
+        textDiv.className = 'thought-text';
+        textDiv.textContent = thought.text;
+
+        // actions
+        const actionsDiv = document.createElement('div');
+        actionsDiv.className = 'thought-actions';
+
+        // like
+        const likeIcon = document.createElement('i');
+        likeIcon.className = 'fas fa-thumbs-up';
+        const likeCount = document.createElement('span');
+        likeCount.className = 'like-counter';
+        likeCount.textContent = thought.likes;
+
+        likeIcon.addEventListener('click', () => {
+          thought.likes++;
+          renderThoughts();
+        });
+
+        // dislike
+        const dislikeIcon = document.createElement('i');
+        dislikeIcon.className = 'fas fa-thumbs-down';
+        const dislikeCount = document.createElement('span');
+        dislikeCount.className = 'dislike-counter';
+        dislikeCount.textContent = thought.dislikes;
+
+        dislikeIcon.addEventListener('click', () => {
+          thought.dislikes++;
+          renderThoughts();
+        });
+
+        // comment
+        const commentSpan = document.createElement('span');
+        commentSpan.style.cursor = 'pointer';
+        commentSpan.innerHTML = `<i class="fas fa-comment-alt"></i> Yorum Yap`;
+        commentSpan.addEventListener('click', () => {
+          // Yorum formunu aç
+          commentForm.style.display = 'block';
+        });
+
+        // hepsini actionsDiv'e ekle
+        actionsDiv.appendChild(likeIcon);
+        actionsDiv.appendChild(likeCount);
+        actionsDiv.appendChild(dislikeIcon);
+        actionsDiv.appendChild(dislikeCount);
+        actionsDiv.appendChild(commentSpan);
+
+        // comment form
+        const commentForm = document.createElement('div');
+        commentForm.className = 'comment-form';
+
+        const closeComment = document.createElement('div');
+        closeComment.className = 'close-comment-form';
+        closeComment.textContent = 'X';
+        closeComment.addEventListener('click', () => {
+          commentForm.style.display = 'none';
+        });
+
+        const commentTextarea = document.createElement('textarea');
+        commentTextarea.placeholder = "Yorumunuzu yazın...";
+
+        const commentSubmit = document.createElement('button');
+        commentSubmit.className = 'btn-comment-submit';
+        commentSubmit.textContent = 'Gönder';
+
+        commentSubmit.addEventListener('click', () => {
+          const cText = commentTextarea.value.trim();
+          if (cText) {
+            thought.comments.push({ text: cText });
+            commentTextarea.value = '';
+            commentForm.style.display = 'none';
+            renderThoughts();
+          }
+        });
+
+        commentForm.appendChild(closeComment);
+        commentForm.appendChild(commentTextarea);
+        commentForm.appendChild(commentSubmit);
+
+        // Yorumları listeleme
+        const commentsSection = document.createElement('div');
+        commentsSection.className = 'comments-section';
+        thought.comments.forEach((c) => {
+          const cItem = document.createElement('div');
+          cItem.className = 'comment-item';
+          cItem.textContent = c.text;
+          commentsSection.appendChild(cItem);
+        });
+
+        // birleştir
+        div.appendChild(textDiv);
+        div.appendChild(actionsDiv);
+        div.appendChild(commentForm);
+        if (thought.comments.length > 0) {
+          div.appendChild(commentsSection);
+        }
+
+        allThoughtsEl.appendChild(div);
+      });
+    }
+
+    // 2) Yeni düşünce ekle
+    addThoughtBtn.addEventListener('click', () => {
+      const text = newThoughtInput.value.trim();
+      if (text) {
+        thoughts.unshift({ text: text, likes: 0, dislikes: 0, comments: [] });
+        newThoughtInput.value = '';
+        renderThoughts();
+      }
+    });
+
+    // İlk render
+    renderThoughts();
+  </script>
+
+</body>
+</html>

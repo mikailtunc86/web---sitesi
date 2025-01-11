@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Makaleler</title>
+
+  <!-- Google Fonts: Serif (Playfair) + Sans (Open Sans) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link 
+    href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Playfair+Display:wght@600;700&display=swap" 
+    rel="stylesheet"
+  >
+
+  <!-- Font Awesome (CDN) - Ana Sayfa İkonu veya Kitap Analizi İkonu -->
+  <link 
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    integrity="sha512-..." 
+    crossorigin="anonymous" 
+    referrerpolicy="no-referrer" 
+  />
+
+  <style>
+    /* Sıfırlama */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Gövde */
+    body {
+      background-color: #fefefe; 
+      color: #333;
+      font-family: 'Open Sans', sans-serif; 
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      /* Arka plandaki animasyonun kesilmemesi için taşma gizleme */
+      overflow: hidden;
+    }
+
+    /*
+      Arka planı hareketlendirmek için body::before pseudo-elementi kullanıyoruz.
+      - background-image içinde bir "DNA" benzeri illüstrasyon kullandım.
+      - background-repeat: repeat veya repeat-x, vs. ayarıyla
+        arka planı istediğiniz gibi çoğaltabilirsiniz.
+      - background-size ile boyutu değiştirebilirsiniz.
+    */
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0; 
+      left: 0; 
+      right: 0; 
+      bottom: 0;
+      z-index: 0;
+      pointer-events: none; /* Tıklama engellensin */
+      background-image: url("assets/images/obje-1.jpg");
+      background-repeat: repeat; 
+      background-size: 1000px auto; 
+      opacity: 0.15; /* Görseli biraz saydamlaştırıp metni ön plana alıyoruz */
+      animation: moveBg 280s linear infinite;
+    }
+
+    /* Arka plan animasyonu -> yavaşça sağa doğru kayma örneği */
+    @keyframes moveBg {
+      0% {
+        background-position: 0 0;
+      }
+      100% {
+        background-position: 2000px 0;
+      }
+    }
+
+    /* Ana Sayfa İkonu (sol üst) */
+    .home-icon {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      color: #333; 
+      text-decoration: none;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.3rem 0.6rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      transition: background 0.7s, transform 0.7s;
+      font-weight: 600;
+      background: #fff;
+      z-index: 2; /* Arka planın üstünde kalması için */
+    }
+    .home-icon:hover {
+      background: #0d0808;
+      transform: scale(1.05);
+    }
+
+    /* Kitap Analizi Butonu (sağ üstte) */
+    .analysis-icon {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      color: #333;
+      text-decoration: none;
+      font-size: 0.95rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 0.3rem 0.6rem;
+      transition: background 0.3s, transform 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-weight: 600;
+      background: #fff;
+      z-index: 2;
+    }
+    .analysis-icon:hover {
+      background: #f0f0f0;
+      transform: scale(1.05);
+    }
+
+    /* Üst Kısım (Başlık + Kısa Açıklama) */
+    header {
+      position: relative;
+      text-align: center;
+      padding: 2rem 1rem 1rem;
+      z-index: 1; 
+    }
+    header h1 {
+      font-family: 'Playfair Display', serif; 
+      font-size: 2rem;
+      color: #000;
+      margin-bottom: 0.5rem;
+      letter-spacing: 1px;
+    }
+    header p {
+      font-size: 1rem;
+      color: #555;
+      max-width: 700px;
+      margin: 0.5rem auto;
+      line-height: 1.6;
+    }
+
+    /* Kategori / Filtre Butonları */
+    .category-nav {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      margin: 1rem 0;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+    }
+    .category-nav button {
+      background: #fff;
+      border: 1px solid #ccc;
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+      cursor: pointer;
+      border-radius: 4px;
+      font-weight: 600;
+      color: #333;
+      transition: background 0.3s, color 0.3s;
+      font-family: 'Open Sans', sans-serif;
+    }
+    .category-nav button:hover {
+      background: #c88718; 
+      color: #fff;
+    }
+
+    /* Ana İçerik */
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 1rem 2rem 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Makale Kartlarının Grid Düzeni */
+    .article-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin-top: 1rem;
+    }
+
+    /* Makale Kartı Tasarımı */
+    .article-card {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s, box-shadow 0.3s;
+      position: relative;
+    }
+    .article-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    }
+
+    /* Makale Kartı İçerikleri */
+    .article-card h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      color: #222;
+      margin-bottom: 0.5rem;
+      line-height: 1.4;
+    }
+    .article-meta {
+      font-size: 0.8rem;
+      color: #999;
+      margin-bottom: 0.5rem;
+    }
+    .article-card p {
+      font-size: 0.9rem;
+      color: #666;
+      line-height: 1.5;
+      flex: 1; 
+    }
+
+    /* "Devamını Oku" Butonu */
+    .read-more {
+      display: inline-block;
+      margin-top: 1rem;
+      background: #c9a66b; 
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: background 0.3s;
+      align-self: flex-start;
+    }
+    .read-more:hover {
+      background: #a57f4f;
+    }
+
+    /* ALT KISIM / FOOTER */
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background: #f9f9f9;
+      font-size: 0.85rem;
+      color: #777;
+      border-top: 1px solid #eee;
+      z-index: 2;
+    }
+
+    /* Responsive Düzen */
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 1.8rem;
+      }
+      .article-card {
+        padding: 1rem;
+      }
+      .read-more {
+        margin-top: 0.5rem;
+      }
+      .home-icon, .analysis-icon {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ana Sayfa İkonu (Sol Üst) -->
+  <a href="index.html" class="home-icon">
+    <i class="fas fa-home"></i>
+    <span>Anasayfa</span>
+  </a>
+
+  <!-- Kitap Analizi İkonu (Sağ Üst) 
+       Not: #kitapAnalizi => anasayfadaki kitapanalizi bölümünde id="kitapAnalizi" olmalı. -->
+  <a href="index.html#kitapAnalizi" class="analysis-icon">
+    <i class="fas fa-book-open"></i>
+    <span>Kitap Analizi</span>
+  </a>
+
+  <header>
+    <h1>Makaleler</h1>
+    <p>
+      Antik beyinlerin evrimsel mirası, yapay zekanın yükselişiyle yeniden 
+      şekilleniyor. İnsan evrimi, düşünce ve yaratıcılığın sınırlarını 
+      genişletirken, bu mirasın izlerini modern teknolojilerde görmek 
+      mümkün. Makalelerimizde, evrimin zekâ üzerindeki etkilerini, yapay 
+      zekanın geleceğiyle birleştirerek inceliyoruz. Antik geçmişten ilham 
+      alarak geleceği anlamaya hazır mısınız?
+    </p>
+  </header>
+
+  <!-- Kategori / Filtre Butonları -->
+  <div class="category-nav">
+    <button data-cat="all">Tümü</button>
+    <button data-cat="biyoloji">Biyoloji</button>
+    <button data-cat="yapayzeka">Yapay Zeka</button>
+    <button data-cat="arkeoloji">Tarih Öncesi Arkeolojisi</button>
+  </div>
+
+  <!-- Ana İçerik: Makale Kartları -->
+  <main>
+    <div class="article-grid" id="articleGrid">
+
+      <!-- Makale Kartı 1: CRISPR / Biyoloji -->
+      <div class="article-card" data-category="biyoloji">
+        <div class="article-meta">Yazar: Nur Aizaan Anwar ve Cosmin Badea | Tarih: 01.05.2024</div>
+        <h2>EVRENSEL MAKİNE BİLİNCİ KRİTERLERİNE DOĞRU: YAPAY ZEKA, PAYLAŞILAN ÖZ VE NÖROBİLİM</h2>
+        <p>
+          Yapay zekâ sistemleri giderek daha antropomorfik ve yaygın hale geldikçe ve insanlık üzerindeki potansiyel etkileri daha acil hale geldikçe, makine bilinci olasılığıyla ilgili tartışmalar önemli ölçüde yoğunlaşmıştır ve bazen bu konu ‘kutsal kâse’ olarak görülmektedir.
+        </p>
+        <!-- Makale Detay sayfanız varsa buraya yönlendirin -->
+        <a href="makaledetay1.html" class="read-more">Devamını Oku</a>
+      </div>
+
+      <!-- Makale Kartı 2: Arkeolojide Dijital Devrim / Arkeoloji -->
+      <div class="article-card" data-category="arkeoloji">
+        <div class="article-meta">Yazar: Gangsha Zhi ve Rulin Xiu | Tarih: 27.09.2023</div>
+        <h2>Kuantum Bilinci Teorisi</h2>
+        <p>
+          Hem bilinç hem de kuantum fenomeni öznel ve belirsizlik içeren olgulardır. Bu çalışmada, bilincin bir kuantum fenomeni olduğunu öneriyoruz. Kuantum fiziğinin yeni bir yorumuna dayalı olarak bir kuantum bilinci teorisi (QTOC) sunuyoruz. Bu QTOC'nin zihin-beden problemi ile bilincin zor problemini ele alabildiğini gösteriyoruz. Ayrıca, bilincin ve sinir ağlarının incelenmesi için fiziksel bir temel ve matematiksel bir formülasyon sunmaktadır. 
+        </p>
+        <a href="makaledetay2.html" class="read-more">Devamını Oku</a>
+      </div>
+
+      <!-- Makale Kartı 3: Sentetik Hücreler / Biyoloji -->
+      <div class="article-card" data-category="biyoloji">
+        <div class="article-meta">Yazar: Daniel Lopes | Tarih: 19.05.2023</div>
+        <h2>Bir Yapay Beyne Doğru: Bilinç ve Bilinçdışının Modellenmesi için Temel Bir Çerçeve</h2>
+        <p>
+          Günümüz popüler kültüründe yapay zekanın (YZ) bilinçli bir süper YZ'ye dönüşerek insanlık üzerinde kontrol sağlamaya çalışacağı korkusu sıkça dile getirilmektedir. Hesaplama gücünün sürekli artmasıyla bu senaryolar daha gerçekçi hale gelirken, yapay beyinlerin anlaşılması, YZ'nin toplumlarımıza fayda sağlayacak şekilde yönlendirilmesi açısından giderek daha önemli bir hal almaktadır.
+        </p>
+        <a href="makaledetay3.html" class="read-more">Devamını Oku</a>
+      </div>
+
+      <!-- Örnek: Yapay Zeka Etiketli bir makale
+      <div class="article-card" data-category="yapayzeka">
+        <div class="article-meta">Yazar: ... | Tarih: ...</div>
+        <h2>Makale Başlığı</h2>
+        <p>...</p>
+        <a href="..." class="read-more">Devamını Oku</a>
+      </div>
+      -->
+
+    </div>
+  </main>
+
+  <footer>
+    © 2024 Evolis - Tüm Hakları Saklıdır
+  </footer>
+
+  <!-- Basit JS Filtreleme -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const categoryButtons = document.querySelectorAll('.category-nav button');
+      const articleGrid = document.getElementById('articleGrid');
+      const articles = articleGrid.querySelectorAll('.article-card');
+
+      categoryButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const cat = btn.getAttribute('data-cat');
+          if (cat === 'all') {
+            // Hepsini göster
+            articles.forEach(a => a.style.display = 'flex');
+          } else {
+            // Sadece ilgili kategoriyi göster
+            articles.forEach(a => {
+              const articleCat = a.getAttribute('data-category');
+              if (articleCat === cat) {
+                a.style.display = 'flex';
+              } else {
+                a.style.display = 'none';
+              }
+            });
+          }
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
