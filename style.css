@@ -111,77 +111,88 @@ footer {
 /*           MEDYA SORGULARI            */
 /* ------------------------------------- */
 
-/* 
-   Tablet ve biraz daha küçük ekranlar (max-width: 992px) 
-   Bu boyutlar "büyük telefon" veya "orta boy tablet" olabilir
-*/
+/* Tablet (768px - 992px) */
 @media (max-width: 992px) {
-  nav.main-menu {
-    flex-wrap: wrap; 
+  /* Köşe Yazıları */
+  .sidebar {
     gap: 1rem;
   }
 
-  .simulation-container {
-    justify-content: center;
+  .kose-yazisi {
+    flex-direction: column; /* Tabletlerde dikey düzen */
+    align-items: center;    /* Ortala */
+    text-align: center;     /* İçeriği ortala */
   }
-  
-  .simulation-item {
-    width: 260px;  /* Biraz daraltarak kartların yan yana daha rahat sığmasını sağlarız */
+
+  .kose-yazisi .author-photo img {
+    width: 50px;
+    height: 50px;
+  }
+
+  .kose-summary p {
+    font-size: 0.85rem; /* Yazıları biraz küçült */
+  }
+
+  /* Düşünceleriniz Bölümü */
+  .user-thoughts {
+    padding: 1rem;
+    font-size: 0.9rem;
   }
 }
 
-/* 
-   768px altına inince (küçük tablet / büyük telefon):
-   ana içeriğin kenar boşluklarını azaltabiliriz.
-*/
+/* Mobil (576px - 768px) */
 @media (max-width: 768px) {
-  main {
-    margin: 1rem;
+  .sidebar-title {
+    font-size: 1.2rem;
   }
 
-  nav.main-menu {
-    flex-wrap: wrap;
+  /* Köşe Yazıları */
+  .kose-yazisi {
     gap: 0.8rem;
     padding: 1rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Mobilde gölgeyi hafiflet */
   }
 
-  .site-title {
-    font-size: 1.8rem; /* Başlık mobilde biraz küçülebilir */
+  .kose-yazisi .author-info {
+    gap: 0.3rem; /* Daha kompakt görünüm */
   }
 
-  .simulation-item {
-    width: 220px;
+  .kose-summary p {
+    font-size: 0.8rem;
+  }
+
+  /* Düşünceleriniz Bölümü */
+  .user-thoughts {
+    font-size: 0.85rem;
   }
 }
 
-/* 
-   576px altı (telefon boyutu):
-   Menü tamamen dikey hizalanabilir, 
-   simülasyon kartları tek sütun dizebilir vb.
-*/
+/* Küçük Telefonlar (576px altı) */
 @media (max-width: 576px) {
-
-  nav.main-menu {
+  /* Köşe Yazıları */
+  .kose-yazisi {
     flex-direction: column;
     align-items: center;
     gap: 0.6rem;
+    padding: 0.8rem;
   }
 
-  .site-title {
-    font-size: 1.6rem; 
+  .kose-yazisi .author-photo img {
+    width: 40px;
+    height: 40px; /* Fotoğraf daha küçük */
   }
 
-  main {
-    margin: 0.5rem;
+  .kose-summary p {
+    font-size: 0.75rem;
   }
 
-  .simulation-container {
-    flex-direction: column;
-    align-items: center;
+  .sidebar {
+    gap: 0.8rem; /* Yazılar arasındaki boşluğu azalt */
   }
 
-  .simulation-item {
-    width: 90%; /* Ekran daraldığından, kartları tek sütun diziyoruz */
-    max-width: 350px; 
+  /* Düşünceleriniz Bölümü */
+  .user-thoughts {
+    font-size: 0.8rem;
+    padding: 0.8rem;
   }
 }
