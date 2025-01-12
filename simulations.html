@@ -1,17 +1,6 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="tr">
-<head><link 
-  rel="stylesheet" 
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" 
-  integrity="sha512-..." 
-  crossorigin="anonymous" 
-  referrerpolicy="no-referrer" 
-/>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Geleceğin Simülasyon Dünyası</title>
-
-  <!-- Font Awesome CDN (ikonlar için) -->
+<head>
   <link 
     rel="stylesheet" 
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" 
@@ -19,8 +8,13 @@
     crossorigin="anonymous" 
     referrerpolicy="no-referrer" 
   />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Geleceğin Simülasyon Dünyası</title>
 
-  <!-- Dilersen style.css'e taşıyabilirsin; burada inline gösteriliyor. -->
+  <!-- model-viewer Kütüphanesi (3D .glb göstermek için) -->
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
   <style>
     /* Sıfırlama ve Temel Ayarlar */
     * {
@@ -42,7 +36,7 @@
       position: relative;
     }
 
-    /* Yıldız efektleri için pseudo-element */
+    /* Yıldız efektleri */
     body::before {
       content: "";
       position: absolute;
@@ -65,11 +59,9 @@
     header {
       text-align: center;
       padding: 2rem 1rem 1rem 1rem;
-      position: relative; /* Geri ikonunu yerleştirmek için relative */
+      position: relative;
       z-index: 2;
     }
-
-    /* Geri dön ikonu (sol üst köşede) */
     .back-home {
       position: absolute;
       left: 1rem;
@@ -86,7 +78,6 @@
       color: #ff6;
       transform: scale(1.05);
     }
-
     header h1 {
       font-size: 2.2rem;
       color: #fff;
@@ -111,7 +102,6 @@
       max-width: 1200px;
       margin: 0 auto;
     }
-
     .section-title {
       font-size: 1.8rem;
       text-align: center;
@@ -125,7 +115,6 @@
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 1.5rem;
     }
-
     .sim-card {
       background: rgba(255,255,255,0.05);
       border: 1px solid rgba(255,255,255,0.1);
@@ -138,7 +127,6 @@
       flex-direction: column;
       gap: 1rem;
     }
-
     .sim-card::before {
       content: "";
       position: absolute;
@@ -152,13 +140,11 @@
       );
       pointer-events: none; 
     }
-
     .sim-card:hover {
       transform: translateY(-6px) scale(1.02);
       box-shadow: 0 8px 20px rgba(0,0,0,0.5);
       z-index: 2;
     }
-
     .sim-card h3 {
       font-size: 1.3rem;
       color: #fff;
@@ -168,7 +154,6 @@
       line-height: 1.5;
       color: #ccc;
     }
-
     .badge {
       display: inline-block;
       padding: 0.3rem 0.6rem;
@@ -182,7 +167,6 @@
     .badge.biyoloji { background: #5df05d; color: #000; }
     .badge.yapay-zeka { background: #5dc1f0; color: #000; }
     .badge.arkeoloji { background: #f0d45d; color: #000; }
-
     .sim-card a {
       align-self: flex-start;
       text-decoration: none;
@@ -215,18 +199,73 @@
         font-size: 1rem;
       }
     }
+
+    /* MODAL PENCERESİ (Simülasyon) */
+    .sim-modal {
+      display: none; /* Başlangıçta gizli */
+      position: fixed;
+      z-index: 9999;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7);
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+      overflow-y: auto;
+    }
+    .sim-modal-content {
+      background: #222;
+      border: 1px solid #555;
+      border-radius: 8px;
+      max-width: 800px;
+      width: 100%;
+      padding: 1.5rem;
+      position: relative;
+    }
+    .close-sim {
+      position: absolute;
+      top: 1rem; 
+      right: 1rem;
+      font-size: 1.5rem;
+      color: #fff;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+    .close-sim:hover {
+      color: #ff6;
+    }
+    .sim-modal-title {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: #fffa;
+    }
+    .sim-model-viewer {
+      width: 100%;
+      height: 400px;
+      background: #000;
+      margin-bottom: 1rem;
+    }
+    .sim-info {
+      font-size: 0.95rem;
+      line-height: 1.4;
+      color: #ccc;
+    }
+
+    /* model-viewer içinde modelin yüklendiğini gösteren */
+    /* bir "Yükleniyor..." ibaresi (posterImage ile) ekleyebiliriz */
+    .sim-model-viewer::part(loading-progress-bar) {
+      background: #ff6;
+    }
   </style>
 </head>
 <body>
 
-  <!-- Header (Geri ikonunu ekledik) -->
+  <!-- Header -->
   <header>
-    <!-- Geri anasayfaya dönmek için ikon -->
     <a href="index.html" class="back-home">
-      <i class="fas fa-arrow-left"></i> <!-- İkon (ok) -->
+      <i class="fas fa-arrow-left"></i>
       <span>Anasayfa</span>
     </a>
-
     <h1>Geleceğin Simülasyon Dünyası</h1>
     <p>
       Bilimin, sanatın ve teknolojinin kesiştiği, hayal gücünün gerçeğe 
@@ -239,46 +278,37 @@
   <main>
     <h2 class="section-title">Simülasyonlar</h2>
 
-    <!-- YENİ: Burada yalnızca “Simülasyon bölümü halen aktif değildir...” uyarısını ekliyoruz -->
-    <p style="color: #ff6; text-align: center; font-weight: bold; margin-bottom: 1.5rem;">
-      Simülasyon bölümü halen aktif değildir ve çok yakında aktif olacaktır!
-    </p>
-    <!-- --------------------------------------------------------------------- -->
-
     <div class="simulation-grid">
 
-      <!-- Biyoloji Örneği -->
+      <!-- 1) BİYOLOJİ: DNA & RNA (dna_rna.glb) -->
       <div class="sim-card">
-        <h3><span class="badge biyoloji">Biyoloji</span> DNA Replikasyonu</h3>
+        <h3><span class="badge biyoloji">Biyoloji</span> DNA & RNA Replikasyonu</h3>
         <p>
           Hücre çekirdeğine sanal bir yolculuk yaparak genetik şifrenin 
           nasıl kopyalandığını keşfedin.
         </p>
-        <a href="#">Simülasyonu Başlat</a>
+        <a href="#" class="open-sim" data-sim="dna_rna">Simülasyonu Başlat</a>
       </div>
 
-      <!-- Yapay Zeka Örneği -->
+      <!-- 2) YAPAY ZEKA: (dunya.glb) -->
       <div class="sim-card">
         <h3><span class="badge yapay-zeka">Yapay Zeka</span> Makine Öğrenmesi</h3>
         <p>
           Bir veri seti üzerinde tahminler yaparak algoritmaların 
           çalışma prensibini görün.
         </p>
-        <a href="#">Simülasyonu Başlat</a>
+        <a href="#" class="open-sim" data-sim="dunya">Simülasyonu Başlat</a>
       </div>
 
-      <!-- Arkeoloji Örneği -->
+      <!-- 3) ARKEOLOJİ: (triceratops.glb) -->
       <div class="sim-card">
         <h3><span class="badge arkeoloji">Arkeoloji</span> Dijital Kazı Alanı</h3>
         <p>
           Sanal kazı yapıp tarihsel buluntuları keşfederek geçmiş 
           medeniyetlere dokunun.
         </p>
-        <a href="#">Simülasyonu Başlat</a>
+        <a href="#" class="open-sim" data-sim="triceratops">Simülasyonu Başlat</a>
       </div>
-
-      <!-- İstediğin kadar simülasyon kartı ekleyebilirsin -->
-      <!-- ... -->
 
     </div>
   </main>
@@ -287,5 +317,88 @@
     © 2024 Evolis - Tüm Hakları Saklıdır | Hayal gücünü gerçeğe taşı.
   </footer>
 
+  <!-- MODAL: Simülasyon İçeriği (Kitap Analizi tarzı) -->
+  <div id="simModal" class="sim-modal">
+    <div class="sim-modal-content">
+      <span class="close-sim">&times;</span>
+      <h2 class="sim-modal-title" id="simModalTitle">Simülasyon Başlığı</h2>
+      
+      <!-- 3D Model (model-viewer) -->
+      <model-viewer 
+        class="sim-model-viewer"
+        src=""
+        alt="3D Simülasyon"
+        auto-rotate
+        camera-controls
+        poster="https://modelviewer.dev/shared-assets/icons/loading_spinner.gif" 
+        loading="lazy">
+      </model-viewer>
+      
+      <!-- Alttaki kısa bilgilendirme metni -->
+      <div class="sim-info" id="simModalInfo">
+        Burada simülasyonla ilgili kısa bilgilendirme yer alacak...
+      </div>
+    </div>
+  </div>
+
+  <!-- JS: Modal Aç/Kapat + 3D Model Yükleme -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const simModal = document.getElementById('simModal');
+      const closeSimBtn = document.querySelector('.close-sim');
+      const modalTitle = document.getElementById('simModalTitle');
+      const modalInfo = document.getElementById('simModalInfo');
+      const modelViewer = document.querySelector('.sim-model-viewer');
+
+      // 3 simülasyon datası
+      const simData = {
+        "dna_rna": {
+          title: "DNA & RNA Replikasyonu",
+          src: "assets/images/dna_rna.glb",
+          info: "Genetik kopyalama sürecini 3D animasyonla keşfedin. Hücre bölünmesi sırasında gerçekleşen DNA eşlenmesi ve RNA transkripsiyonuna dair temel bilgiler burada yer alıyor."
+        },
+        "dunya": {
+          title: "Yapay Zeka – Makine Öğrenmesi",
+          src: "assets/images/dünya.glb",  /* Türkçe karakter yerine dunya.glb */
+          info: "Veri setlerinin sınıflandırılması ve tahmin edilmesi süreçlerini 3D bir dünyayla gözlemleyin. Yapay zekanın algoritma mantığını kavrayın. Büyük bir model olduğundan yüklenmesi zaman alabilir."
+        },
+        "triceratops": {
+          title: "Dijital Kazı: Triceratops",
+          src: "assets/images/triceratops.glb",
+          info: "Kazı alanında bir Triceratops fosilini inceleyin. Paleontolojide kazı teknikleri ve dinozor anatomisi hakkında bilgilendirme içerir."
+        }
+      };
+
+      // Simülasyon linklerine tıklama
+      document.querySelectorAll('.open-sim').forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const simId = link.getAttribute('data-sim');
+          if (simData[simId]) {
+            // Modal başlığı, modelviewer src ve info güncelle
+            modalTitle.textContent = simData[simId].title;
+            modelViewer.src = simData[simId].src;
+            modalInfo.textContent = simData[simId].info;
+            // Modal göster
+            simModal.style.display = 'flex';
+          }
+        });
+      });
+
+      // Modal kapatma butonu
+      closeSimBtn.addEventListener('click', () => {
+        simModal.style.display = 'none';
+        modelViewer.src = ""; // kapatınca modeli sıfırlayabiliriz
+      });
+
+      // Modalın dışında tıklandığında da kapat
+      window.addEventListener('click', (e) => {
+        if (e.target === simModal) {
+          simModal.style.display = 'none';
+          modelViewer.src = "";
+        }
+      });
+    });
+  </script>
 </body>
 </html>
