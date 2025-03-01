@@ -56,7 +56,7 @@
       color: #fff;
     }
 
-    /* ANA İÇERİK: Solda (Kitap Analizi x2, Quiz, Video/Podcast) - Sağda (Köşe Yazıları + Kullanıcı Düşünceleri) */
+    /* ANA İÇERİK: Solda (Kitap Analizi x1 + Haber Paneli, Quiz, Video/Podcast) - Sağda (Köşe Yazıları + Kullanıcı Düşünceleri) */
     main {
       flex: 1;
       display: flex;
@@ -136,16 +136,8 @@
       padding: 1rem;
       font-size: 0.85rem;
     }
-    @media (max-width: 768px) {
-      main {
-        flex-direction: column;
-      }
-      .kose-yazisi {
-        flex-direction: row;
-      }
-    }
 
-    /* KITAP ANALİZİ (350x350) */
+    /* KITAP ANALİZİ */
     .book-analysis {
       background: #fff;
       border-radius: 6px;
@@ -154,9 +146,10 @@
       display: flex;
       flex-direction: column;
       gap: 1rem;
-      width: 350px !important;   /* Uzatılmış genişlik */
-      height: 350px !important;  /* Uzatılmış yükseklik */
-      overflow-y: auto !important; /* İçerik taşarsa scrollbar */
+      /* Desktop/tablet varsayılan genişlik: */
+      width: 350px;
+      height: 350px;
+      overflow-y: auto;
     }
     .book-analysis h2 {
       font-size: 1.3rem;
@@ -184,11 +177,53 @@
       background: #0056b3;
     }
 
-    /* KITAP ANALİZ BÖLÜMLERİNİ YAN YANA GETİRMEK İÇİN OLUŞTURULAN KAPSAYICI */
-    .book-analysis-row {
+    /* YENİ PANEL (Haberler / Makaleler) */
+    .news-panel {
+      background: #fff;
+      border-radius: 6px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      padding: 1rem;
       display: flex;
-      flex-direction: row;
-      gap: 2rem;
+      flex-direction: column;
+      gap: 0.8rem;
+      width: 350px;
+      height: 350px;
+      overflow-y: auto;
+    }
+    .news-panel h2 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      border-bottom: 2px solid #666;
+      padding-bottom: 0.3rem;
+    }
+    .news-item {
+      margin-bottom: 0.5rem;
+      border-bottom: 1px dotted #ccc;
+      padding-bottom: 0.5rem;
+    }
+    .news-item h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.2rem; /* Başlıkla paragrafı biraz ayıralım */
+    }
+    .news-item p {
+      font-size: 0.85rem;
+      color: #555;
+      line-height: 1.4;
+    }
+    .news-item .news-date {
+      font-size: 0.75rem;
+      color: #999;
+      margin-top: 0.3rem;
+    }
+    /* Başlıkları link şeklinde göstermek için: */
+    .news-item h3 a {
+      color: #333;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .news-item h3 a:hover {
+      color: #007BFF;
     }
 
     /* QUIZ */
@@ -501,6 +536,73 @@
       background-color: #f9f9f9;
       margin: 2rem 0;
     }
+
+    /* ---------- TABLET GÖRÜNÜM (max-width: 768px) ----------- */
+    @media (max-width: 768px) {
+      main {
+        flex-direction: column;
+      }
+      .left-content {
+        gap: 1.5rem;
+      }
+      /* .book-analysis ve .news-panel aynı satırda durmasın, dikey gelsin */
+      .left-content > div[style] {
+        flex-direction: column !important; 
+        gap: 1rem !important;
+      }
+      .book-analysis,
+      .news-panel {
+        width: 100% !important;  /* Tablet ekranında tam genişlik */
+        height: auto !important; /* Yüksekliği içerik kadar */
+      }
+      /* 3D kutu ortalansın */
+      .center-cube {
+        margin: 1rem auto;
+      }
+      /* Video iframe genişliği */
+      .media-item iframe {
+        width: 100%;
+        height: auto;
+      }
+    }
+
+    /* ---------- TELEFON GÖRÜNÜM (max-width: 480px) ----------- */
+    @media (max-width: 480px) {
+      .site-title {
+        font-size: 1.5rem;
+      }
+      nav.main-menu {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        justify-content: center;
+      }
+      .main-menu a {
+        padding: 0.4rem;
+      }
+      /* Ortadaki 3D küp daha küçük olsun */
+      .center-cube {
+        width: 200px;
+        height: 200px;
+        margin: 1rem auto;
+      }
+      /* Quiz soru/cevap fontlarını biraz küçültelim */
+      .quiz-section h2 {
+        font-size: 1.1rem;
+      }
+      .quiz-question {
+        font-size: 0.95rem;
+      }
+      .quiz-answer {
+        font-size: 0.85rem;
+      }
+      /* Medya başlıkları vs. */
+      .media-section h2 {
+        font-size: 1.1rem;
+      }
+      .media-title {
+        font-size: 0.95rem;
+      }
+    }
   </style>
 
   <!-- 3D kütüphanesi (model-viewer) import -->
@@ -523,14 +625,14 @@
     <a href="contact.html">İletişim</a>
   </nav>
 
-  <!-- ANA İÇERİK: Solda (Kitap Analizi x2, Quiz, Video/Podcast) - Sağda (Köşe Yazıları, Kullanıcı Düşünceleri) -->
+  <!-- ANA İÇERİK: Solda (1 Kitap Analizi + Haber Paneli, Quiz, Video/Podcast) - Sağda (Köşe Yazıları, Kullanıcı Düşünceleri) -->
   <main>
     <!-- SOL KISIM -->
     <section class="left-content">
       
-      <!-- 2 KİTAP ANALİZİNİ YAN YANA GETİRMEK İÇİN OLUŞTURULAN KAPSAYICI -->
-      <div class="book-analysis-row">
-        <!-- 1. KİTAP ANALİZİ -->
+      <!-- Bu satırda sadece 1 tane Kitap Analizi var, ikinci yerine Haber Paneli -->
+      <div style="display: flex; flex-direction: row; gap: 2rem;">
+        <!-- 1. KİTAP ANALİZİ (Korumaya Devam Ettiğimiz) -->
         <div class="book-analysis">
           <h2>Kitap Analizi</h2>
           <p>
@@ -541,37 +643,49 @@
           <p>
             Analiz: <br/>
             <strong>“Ulusların Zenginliği” - Adam Smith</strong><br/>
-            Adam Smith’in <em>Ulusların Zenginliği (1776),</em> modern ekonomik düşüncenin temellerini atan 
+            Adam Smith’in <em>Ulusların Zenginliği (1776)</em>, modern ekonomik düşüncenin temellerini atan 
             ve bireysel çıkarların piyasa mekanizmalarıyla toplumsal refaha nasıl dönüştüğünü 
             açıklayan çığır açıcı bir eserdir. İşbölümü ve serbest ticaret kavramlarıyla serbest piyasa 
             ekonomisinin ilkelerini ele alan bu eser, dönemin ekonomik sistemlerine eleştirel bir 
-            bakış sunar. Bu raporda, Smith’in temel kavramları ve günümüz ekonomisine etkileri 
-            incelenecektir.
+            bakış sunar.
           </p>
-          <!-- Butona index=0 veriyoruz -->
+          <!-- Butona index=0 veriyoruz (örneğin) -->
           <button class="book-analysis-button" data-index="0">Tüm Analizleri Gör</button>
         </div>
 
-        <!-- 2. KİTAP ANALİZİ -->
-        <div class="book-analysis">
-          <h2>Kitap Analizi</h2>
-          <p>
-            Burada popüler bilim kitaplarını inceliyoruz.  
-            Farklı alanlardaki kitapların özetleri, yazar yorumları ve 
-            incelemeleri bu bölümde yer alacak.
-          </p>
-          <p>
-            Analiz: <br/>
-            <strong>“Sosyal Teori ve Sosyoloji” - Stephen P. Turner</strong><br/>
-            Stephen P. Turner’ın <em> Sosyal Teori ve Sosyoloji adlı eseri,</em> sosyolojinin teorik temellerini tarihsel bir 
-            bağlamda ele alarak modern toplumsal yapılar üzerindeki etkilerini sorgulayan kapsamlı bir çalışmadır. 
-            Eser, klasik sosyal teorilerin sınırlarını eleştirirken, bilgi, otorite ve dayanışma gibi temel kavramların 
-            çağdaş toplumsal sorunlara uygulanabilirliğini derinlemesine inceler. Turner, sosyal teorinin 
-            sınırlamalarını eleştirirken, teorik araçların çağdaş toplumsal sorunları anlamada ve çözüm üretmede 
-            yetersiz kaldığını vurgular. 
-          </p>
-          <!-- Butona index=1 veriyoruz -->
-          <button class="book-analysis-button" data-index="1">Tüm Analizleri Gör</button>
+        <!-- GÜNCEL HABERLER / MAKALELER PANELİ (YENİLENDİ) -->
+        <div class="news-panel">
+          <h2>Güncel Haberler / Makaleler</h2>
+
+          <!-- Haber 1 -->
+          <div class="news-item">
+            <h3>
+              <a href="newsdetail-haber1.html">
+                NASA Ayda Demiryolu Sistemi Planlarını Açıkladı
+              </a>
+            </h3>
+            <p>
+              Amerikan uzay ajansı NASA, Ay yüzeyinde inşa etmeyi planladığı 
+              bir demiryolu sistemiyle ilgili ayrıntılar paylaşıyor.
+            </p>
+            <div class="news-date">çeviri : Mikail Tunç | 05.01.2025</div>
+          </div>
+
+          <!-- Haber 2 -->
+          <div class="news-item">
+            <h3>
+              <a href="newsdetail-haber2.html">
+                Araştırma: Antik Amerikalılar Gıda İçin Mamutlara Büyük Ölçüde Bağımlıydı
+              </a>
+            </h3>
+            <p>
+              Yeni bir araştırma, Kuzey Amerika’da yaşayan ilk insanların mamutlar 
+              ve diğer büyük hayvanlara büyük ölçüde bağımlı olduklarını ortaya koyuyor.
+            </p>
+            <div class="news-date">çeviri : Mikail Tunç | 20.12.2024</div>
+          </div>
+
+          <!-- İsterseniz buraya bir makale örneği de ekleyebilir veya 'newsdetail-haber3.html' vb. ekleyebilirsiniz. -->
         </div>
       </div>
 
@@ -739,13 +853,155 @@
           Adam Smith’in <em>Ulusların Zenginliği (1776)</em> adlı eseri, modern ekonomik düşüncenin
           temellerini atan ve bireysel çıkarların piyasa mekanizmaları aracılığıyla toplumsal
           refaha nasıl dönüştüğünü sistematik bir şekilde açıklayan çığır açıcı bir çalışmadır.
-          <!-- ... (JS ile içeriği genişletilecektir) -->
         </p>
       </div>
     </div>
   </div>
 
-  <!-- 2) Harici JS dosyaları (kodlarınızı oraya taşıdık) -->
+  <!-- Harici JS -->
   <script src="js/modelViewerSetup.js"></script>
+
+  <script>
+    // Quiz cevabını göster/gizle
+    const quizButton = document.querySelector('.quiz-button');
+    const quizAnswer = document.querySelector('.quiz-answer');
+    quizButton.addEventListener('click', () => {
+      if (quizAnswer.style.display === 'block') {
+        quizAnswer.style.display = 'none';
+      } else {
+        quizAnswer.style.display = 'block';
+      }
+    });
+
+    // Podcast Beğen / Beğenme
+    const podcastLikeBtn = document.getElementById('podcastLikeBtn');
+    const podcastDislikeBtn = document.getElementById('podcastDislikeBtn');
+    const podcastLikeCount = document.getElementById('podcastLikeCount');
+    const podcastDislikeCount = document.getElementById('podcastDislikeCount');
+    let likeCount = 0;
+    let dislikeCount = 0;
+
+    podcastLikeBtn.addEventListener('click', () => {
+      likeCount++;
+      podcastLikeCount.textContent = likeCount;
+    });
+
+    podcastDislikeBtn.addEventListener('click', () => {
+      dislikeCount++;
+      podcastDislikeCount.textContent = dislikeCount;
+    });
+
+    // Podcast Yorumları
+    const podcastCommentInput = document.getElementById('podcastCommentInput');
+    const podcastCommentBtn = document.getElementById('podcastCommentBtn');
+    const podcastCommentList = document.getElementById('podcastCommentList');
+
+    podcastCommentBtn.addEventListener('click', () => {
+      const commentText = podcastCommentInput.value.trim();
+      if (commentText) {
+        const commentItem = document.createElement('div');
+        commentItem.classList.add('comment-item');
+        commentItem.textContent = commentText;
+        podcastCommentList.appendChild(commentItem);
+        podcastCommentInput.value = '';
+      }
+    });
+
+    // Kullanıcı Düşünceleri
+    const thoughtForm = document.querySelector('.thought-form');
+    const thoughtList = document.getElementById('thoughtList');
+
+    thoughtForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const textarea = thoughtForm.querySelector('textarea');
+      const textVal = textarea.value.trim();
+      if (textVal) {
+        const newThought = document.createElement('div');
+        newThought.classList.add('thought-item');
+        newThought.innerHTML = `
+          <div class="thought-text">${textVal}</div>
+        `;
+        thoughtList.prepend(newThought);
+        textarea.value = '';
+      }
+    });
+
+    // Köşe Yazıları Modal
+    const openModalLinks = document.querySelectorAll('.open-modal');
+    const koseModal = document.getElementById('koseModal');
+    const modalClose = koseModal.querySelector('.close');
+    const modalTitle = koseModal.querySelector('.modal-title');
+    const modalBody = koseModal.querySelector('.modal-body');
+
+    openModalLinks.forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const article = link.getAttribute('data-article');
+        koseModal.style.display = 'block';
+
+        if (article === 'kose1') {
+          modalTitle.textContent = 'Köşe Yazısı 1 - Mikail Tunç';
+          modalBody.innerHTML = `
+            <p>Dilin evrimsel süreci, insan beyin yapısının gelişimiyle yakından ilişkilidir. 
+            Dil sayesinde bilgi aktarımı, kültürel birikim ve iş birliği hız kazanmış, 
+            böylece toplumlar ve medeniyetler inşa edilebilmiştir...</p>
+          `;
+        } else if (article === 'kose2') {
+          modalTitle.textContent = 'Köşe Yazısı 2 - Mikail Tunç';
+          modalBody.innerHTML = `
+            <p>Mimarinin ilk örnekleri, barınma ihtiyacına yönelik basit yapılar olsa da 
+            zamanla sanatsal ve estetik boyut kazanmıştır. Antik uygarlıkların tapınakları, 
+            piramitleri ve sarayları, mimarinin kültürel kimlik inşasındaki rolünü kanıtlar...</p>
+          `;
+        }
+      });
+    });
+
+    modalClose.addEventListener('click', () => {
+      koseModal.style.display = 'none';
+    });
+
+    // Kitap Analizleri Modal
+    const bookModal = document.getElementById('bookModal');
+    const closeBook = bookModal.querySelector('.close-book');
+    const bookModalTitle = document.getElementById('bookModalTitle');
+    const bookModalBody = document.getElementById('bookModalBody');
+    const bookAnalysisButtons = document.querySelectorAll('.book-analysis-button');
+
+    bookAnalysisButtons.forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.preventDefault();
+        const index = btn.getAttribute('data-index');
+        bookModal.style.display = 'block';
+
+        if (index === '0') {
+          // 1. Kitap Analizi ayrıntıları
+          bookModalTitle.textContent = 'Adam Smith - Ulusların Zenginliği (Derinlemesine Analiz)';
+          bookModalBody.innerHTML = `
+            <h3>1. Giriş</h3>
+            <p>Adam Smith’in <em>Ulusların Zenginliği (1776)</em> adlı eseri, modern ekonomik düşüncenin
+            temellerini atan ve bireysel çıkarların piyasa mekanizmaları aracılığıyla toplumsal
+            refaha nasıl dönüştüğünü sistematik bir şekilde açıklayan çığır açıcı bir çalışmadır.</p>
+            <h3>2. İşbölümü ve Uzmanlaşma</h3>
+            <p>Smith, işbölümünün verimliliği artırıcı rolüne vurgu yapar...</p>
+          `;
+        } 
+      });
+    });
+
+    closeBook.addEventListener('click', () => {
+      bookModal.style.display = 'none';
+    });
+
+    // Modal dışında tıklayınca kapatma
+    window.addEventListener('click', event => {
+      if (event.target === koseModal) {
+        koseModal.style.display = 'none';
+      }
+      if (event.target === bookModal) {
+        bookModal.style.display = 'none';
+      }
+    });
+  </script>
 </body>
 </html>
