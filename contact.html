@@ -137,6 +137,55 @@
       padding: 1rem;
       font-size: 0.85rem;
     }
+
+    /* -- TABLET GÖRÜNÜMÜ (max-width: 768px) -- */
+    @media (max-width: 768px) {
+      .site-title {
+        font-size: 1.6rem;
+      }
+      nav.main-menu {
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+      main {
+        margin: 1rem;
+        padding: 1.5rem;
+      }
+      .contact-title {
+        font-size: 1.5rem;
+      }
+    }
+
+    /* -- TELEFON GÖRÜNÜMÜ (max-width: 480px) -- */
+    @media (max-width: 480px) {
+      .site-title {
+        font-size: 1.4rem;
+      }
+      nav.main-menu {
+        gap: 0.5rem;
+        justify-content: center;
+      }
+      nav.main-menu a {
+        padding: 0.4rem;
+      }
+      .contact-title {
+        font-size: 1.3rem;
+      }
+      .contact-subtitle {
+        font-size: 0.9rem;
+      }
+      .contact-form label {
+        font-size: 0.85rem;
+      }
+      .contact-form input[type="text"],
+      .contact-form input[type="email"],
+      .contact-form textarea {
+        font-size: 0.85rem;
+      }
+      button[type="submit"] {
+        font-size: 0.9rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -165,10 +214,9 @@
     </p>
 
     <!-- 
-      TEK SATIR DEĞİŞİKLİK:
-      1) action="mailto:..."
-      2) method="POST"
-      3) enctype="text/plain"
+      action="mailto:tuncmikail9@gmail.com?subject=Evolis%20Iletisim%20Formu" 
+      method="POST" 
+      enctype="text/plain"
     -->
     <form 
       action="mailto:tuncmikail9@gmail.com?subject=Evolis%20Iletisim%20Formu" 
