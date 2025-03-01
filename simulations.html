@@ -188,18 +188,6 @@
       background: rgba(0,0,0,0.5);
     }
 
-    @media (max-width: 768px) {
-      header h1 {
-        font-size: 1.8rem;
-      }
-      .sim-card {
-        padding: 1rem;
-      }
-      .back-home {
-        font-size: 1rem;
-      }
-    }
-
     /* MODAL PENCERESİ (Simülasyon) */
     .sim-modal {
       display: none; /* Başlangıçta gizli */
@@ -250,11 +238,79 @@
       line-height: 1.4;
       color: #ccc;
     }
-
-    /* model-viewer içinde modelin yüklendiğini gösteren */
-    /* bir "Yükleniyor..." ibaresi (posterImage ile) ekleyebiliriz */
     .sim-model-viewer::part(loading-progress-bar) {
       background: #ff6;
+    }
+
+    /* ----------- MEDYA SORGU: TABLET (max-width: 768px) ----------- */
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 1.8rem;
+      }
+      .back-home {
+        font-size: 1rem;
+      }
+      main {
+        padding: 1.5rem;
+      }
+      .section-title {
+        font-size: 1.5rem;
+      }
+      .sim-card {
+        padding: 1rem;
+      }
+      .sim-card h3 {
+        font-size: 1.2rem;
+      }
+      .sim-model-viewer {
+        height: 300px; /* Tablet ekranında 3D model yüksekliği biraz azalsın */
+      }
+    }
+
+    /* ----------- MEDYA SORGU: TELEFON (max-width: 480px) ----------- */
+    @media (max-width: 480px) {
+      header {
+        padding: 1rem;
+      }
+      header h1 {
+        font-size: 1.5rem;
+      }
+      header p {
+        font-size: 0.9rem;
+        margin-top: 0.5rem;
+      }
+      .back-home {
+        font-size: 0.9rem;
+      }
+      main {
+        padding: 1rem;
+        gap: 1.2rem;
+      }
+      .section-title {
+        font-size: 1.3rem;
+        margin-bottom: 0.8rem;
+      }
+      .sim-card {
+        padding: 0.8rem;
+      }
+      .sim-card h3 {
+        font-size: 1.1rem;
+      }
+      .sim-card p {
+        font-size: 0.85rem;
+      }
+      .sim-model-viewer {
+        height: 250px; /* Telefon ekranında daha küçük 3D alan */
+      }
+      .sim-modal-content {
+        padding: 1rem;
+      }
+      .sim-modal-title {
+        font-size: 1.2rem;
+      }
+      .sim-info {
+        font-size: 0.85rem;
+      }
     }
   </style>
 </head>
@@ -317,7 +373,7 @@
     © 2024 Evolis - Tüm Hakları Saklıdır | Hayal gücünü gerçeğe taşı.
   </footer>
 
-  <!-- MODAL: Simülasyon İçeriği (Kitap Analizi tarzı) -->
+  <!-- MODAL: Simülasyon İçeriği -->
   <div id="simModal" class="sim-modal">
     <div class="sim-modal-content">
       <span class="close-sim">&times;</span>
@@ -359,7 +415,7 @@
         },
         "dunya": {
           title: "Yapay Zeka – Makine Öğrenmesi",
-          src: "assets/images/dünya.glb",  /* Türkçe karakter yerine dunya.glb */
+          src: "assets/images/dünya.glb",
           info: "Veri setlerinin sınıflandırılması ve tahmin edilmesi süreçlerini 3D bir dünyayla gözlemleyin. Yapay zekanın algoritma mantığını kavrayın. Büyük bir model olduğundan yüklenmesi zaman alabilir."
         },
         "triceratops": {
