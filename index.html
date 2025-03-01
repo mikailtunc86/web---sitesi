@@ -603,6 +603,100 @@
         font-size: 0.95rem;
       }
     }
+
+    /* ---- Yeni Eklenecek: Kayıt / Giriş Paneli ve Modal ---- */
+    .login-register-panel {
+      background: #eee;
+      padding: 0.6rem;
+      border-radius: 6px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: row;
+      gap: 1rem;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    .login-register-panel a {
+      color: #007BFF;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.3rem 0.6rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      transition: background 0.3s, color 0.3s;
+      font-size: 0.9rem;
+    }
+    .login-register-panel a:hover {
+      background: #007BFF;
+      color: #fff;
+    }
+
+    /* Kayıt Modal */
+    #registerModal {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      left: 0; 
+      top: 0;
+      width: 100%; 
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      justify-content: center;
+      align-items: center;
+    }
+    .register-modal-content {
+      background: #fff;
+      padding: 1rem;
+      border-radius: 6px;
+      width: 90%;
+      max-width: 400px;
+      position: relative;
+    }
+    .register-modal-close {
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      font-size: 1.4rem;
+      cursor: pointer;
+      color: #999;
+    }
+    .register-modal-close:hover {
+      color: #333;
+    }
+    .register-modal-title {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+    .register-form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+    .register-form label {
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    .register-form input {
+      padding: 0.5rem;
+      font-size: 0.9rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .register-form button {
+      background: #007BFF;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 0.6rem 1rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .register-form button:hover {
+      background: #0056b3;
+    }
   </style>
 
   <!-- 3D kütüphanesi (model-viewer) import -->
@@ -769,6 +863,13 @@
 
     <!-- SAĞ TARAFTAKİ KÖŞE YAZILARI + KULLANICI DÜŞÜNCELERİ -->
     <aside class="sidebar">
+
+      <!-- EKLENEN: Kayıt / Giriş Paneli -->
+      <div class="login-register-panel">
+        <a href="#" id="loginLink">Giriş Yap</a>
+        <a href="#" id="registerLink">Kayıt Ol</a>
+      </div>
+
       <div class="sidebar-title">Köşe Yazıları</div>
 
       <!-- Köşe Yazısı 1 -->
@@ -858,6 +959,23 @@
     </div>
   </div>
 
+  <!-- KAYIT MODALI (Yeni Eklendi) -->
+  <div id="registerModal">
+    <div class="register-modal-content">
+      <span class="register-modal-close">&times;</span>
+      <h2 class="register-modal-title">Kayıt / Giriş Formu</h2>
+      <form class="register-form">
+        <label for="regEmail">E-posta Adresi:</label>
+        <input type="email" id="regEmail" required placeholder="ornek@eposta.com">
+
+        <label for="regPassword">Şifre:</label>
+        <input type="password" id="regPassword" required placeholder="Şifreniz...">
+
+        <button type="button" id="registerSubmitBtn">Devam Et</button>
+      </form>
+    </div>
+  </div>
+
   <!-- Harici JS -->
   <script src="js/modelViewerSetup.js"></script>
 
@@ -907,12 +1025,59 @@
       }
     });
 
+    // --------- Kullanıcı Kayıt/Giriş Sistemi (Yeni) -----------
+    let isLoggedIn = false;  // Varsayılan: kullanıcı giriş yapmamış
+
+    const loginLink = document.getElementById('loginLink');
+    const registerLink = document.getElementById('registerLink');
+    const registerModal = document.getElementById('registerModal');
+    const registerModalClose = document.querySelector('.register-modal-close');
+    const registerSubmitBtn = document.getElementById('registerSubmitBtn');
+
+    // Tıklayınca kayıt/giriş modalını açalım
+    loginLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      registerModal.style.display = 'flex'; 
+    });
+    registerLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      registerModal.style.display = 'flex';
+    });
+
+    // Modal kapatma butonu
+    registerModalClose.addEventListener('click', () => {
+      registerModal.style.display = 'none';
+    });
+
+    // Modal dışında tıklanınca kapatma
+    window.addEventListener('click', (e) => {
+      if (e.target === registerModal) {
+        registerModal.style.display = 'none';
+      }
+    });
+
+    // "Devam Et" butonuna basınca basitçe "isLoggedIn" = true varsayalım
+    registerSubmitBtn.addEventListener('click', () => {
+      isLoggedIn = true;
+      alert("Kayıt / Giriş işlemi başarılı varsayıldı!");
+      registerModal.style.display = 'none';
+    });
+
+    // -----------------------------------------------------------
+
     // Kullanıcı Düşünceleri
     const thoughtForm = document.querySelector('.thought-form');
     const thoughtList = document.getElementById('thoughtList');
 
     thoughtForm.addEventListener('submit', e => {
       e.preventDefault();
+      // Kayıt kontrolü ekleyelim:
+      if (!isLoggedIn) {
+        // Eğer kullanıcı giriş yapmadıysa => Kayıt modalını göster
+        registerModal.style.display = 'flex';
+        return; // Form gönderilmesin
+      }
+      // Kullanıcı giriş yaptıysa normal şekilde yorum ekle
       const textarea = thoughtForm.querySelector('textarea');
       const textVal = textarea.value.trim();
       if (textVal) {
