@@ -57,7 +57,7 @@
       flex: 1;
       margin: 1rem 2rem 2rem;
       background: #fff url("https://via.placeholder.com/1200x800/eee/fff?text=Parşömen+Dokusu") repeat; 
-      /* Yukarıdaki placeholder, parşömen benzeri bir dokuyu simgeler. İsterseniz gerçek bir doku ekleyebilirsiniz. */
+      /* Yukarıdaki placeholder, parşömen benzeri bir dokuyu simgeler. */
       background-size: 600px 600px;
       border-radius: 6px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
@@ -128,10 +128,46 @@
       font-size: 0.85rem;
     }
 
-    /* Responsive */
+    /* Responsive - Tablet (max-width: 768px) */
     @media (max-width: 768px) {
       .about-grid {
         grid-template-columns: 1fr; 
+      }
+    }
+
+    /* Responsive - Telefon (max-width: 480px) */
+    @media (max-width: 480px) {
+      .site-title {
+        font-size: 1.6rem; /* Başlık biraz küçültüldü */
+      }
+      nav.main-menu {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        justify-content: center;
+      }
+      nav.main-menu a {
+        padding: 0.4rem;
+      }
+
+      /* Ana kısım kenar boşluğu azalsın */
+      main {
+        margin: 1rem;
+        padding: 1rem;
+      }
+
+      .about-title {
+        font-size: 1.4rem;
+      }
+      .about-subtitle {
+        font-size: 0.95rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .about-section h2 {
+        font-size: 1.15rem;
+      }
+      .about-section p {
+        font-size: 0.9rem;
       }
     }
   </style>
@@ -180,7 +216,7 @@
         </p>
       </div>
 
-      <!-- Sağ Sütun: Kurucunun Sözleri -->
+      <!-- Sağ Sütun: Kurucunun Sözleri (Tüm Genişlik) -->
       <div class="about-section" style="grid-column: span 2;">
         <h2>Kurucunun Sözleri</h2>
         <p>
