@@ -40,7 +40,9 @@
       flex-direction: column;
       position: relative;
       /* Arka plandaki animasyonun kesilmemesi için taşma gizleme */
-      overflow: hidden;
+      /* Eski: overflow: hidden;  */
+      /* Yalnızca yatayda taşma gizlensin, dikeyde kaydırma aktif olsun */
+      overflow-x: hidden; 
     }
 
     /*
@@ -317,28 +319,27 @@
   <main>
     <div class="article-grid" id="articleGrid">
 
-      <!-- Makale Kartı 1: CRISPR / Biyoloji -->
+      <!-- Makale Kartı 1 -->
       <div class="article-card" data-category="biyoloji">
         <div class="article-meta">Yazar: Nur Aizaan Anwar ve Cosmin Badea | Tarih: 01.05.2024</div>
         <h2>EVRENSEL MAKİNE BİLİNCİ KRİTERLERİNE DOĞRU: YAPAY ZEKA, PAYLAŞILAN ÖZ VE NÖROBİLİM</h2>
         <p>
           Yapay zekâ sistemleri giderek daha antropomorfik ve yaygın hale geldikçe ve insanlık üzerindeki potansiyel etkileri daha acil hale geldikçe, makine bilinci olasılığıyla ilgili tartışmalar önemli ölçüde yoğunlaşmıştır ve bazen bu konu ‘kutsal kâse’ olarak görülmektedir.
         </p>
-        <!-- Makale Detay sayfanız varsa buraya yönlendirin -->
         <a href="makaledetay1.html" class="read-more">Devamını Oku</a>
       </div>
 
-      <!-- Makale Kartı 2: Arkeolojide Dijital Devrim / Arkeoloji -->
+      <!-- Makale Kartı 2 -->
       <div class="article-card" data-category="arkeoloji">
         <div class="article-meta">Yazar: Gangsha Zhi ve Rulin Xiu | Tarih: 27.09.2023</div>
         <h2>Kuantum Bilinci Teorisi</h2>
         <p>
-          Hem bilinç hem de kuantum fenomeni öznel ve belirsizlik içeren olgulardır. Bu çalışmada, bilincin bir kuantum fenomeni olduğunu öneriyoruz. Kuantum fiziğinin yeni bir yorumuna dayalı olarak bir kuantum bilinci teorisi (QTOC) sunuyoruz. Bu QTOC'nin zihin-beden problemi ile bilincin zor problemini ele alabildiğini gösteriyoruz. Ayrıca, bilincin ve sinir ağlarının incelenmesi için fiziksel bir temel ve matematiksel bir formülasyon sunmaktadır. 
+          Hem bilinç hem de kuantum fenomeni öznel ve belirsizlik içeren olgulardır. Bu çalışmada, bilincin bir kuantum fenomeni olduğunu öneriyoruz. Kuantum fiziğinin yeni bir yorumuna dayalı olarak bir kuantum bilinci teorisi (QTOC) sunuyoruz. Bu QTOC'nin zihin-beden problemi ile bilincin zor problemini ele alabildiğini gösteriyoruz. Ayrıca, bilincin ve sinir ağlarının incelenmesi için fiziksel bir temel ve matematiksel bir formülasyon sunmaktadır.
         </p>
         <a href="makaledetay2.html" class="read-more">Devamını Oku</a>
       </div>
 
-      <!-- Makale Kartı 3: Sentetik Hücreler / Biyoloji -->
+      <!-- Makale Kartı 3 -->
       <div class="article-card" data-category="biyoloji">
         <div class="article-meta">Yazar: Daniel Lopes | Tarih: 19.05.2023</div>
         <h2>Bir Yapay Beyne Doğru: Bilinç ve Bilinçdışının Modellenmesi için Temel Bir Çerçeve</h2>
@@ -348,11 +349,11 @@
         <a href="makaledetay3.html" class="read-more">Devamını Oku</a>
       </div>
 
-      <!-- Örnek: Yapay Zeka Etiketli bir makale
+      <!-- Örnek: Yeni makaleler ekleyeceğiniz yer:
       <div class="article-card" data-category="yapayzeka">
-        <div class="article-meta">Yazar: ... | Tarih: ...</div>
+        <div class="article-meta">Yazar: ... | Tarih: 01.03.2025</div>
         <h2>Makale Başlığı</h2>
-        <p>...</p>
+        <p>Makale özetiniz...</p>
         <a href="..." class="read-more">Devamını Oku</a>
       </div>
       -->
@@ -364,13 +365,43 @@
     © 2024 Evolis - Tüm Hakları Saklıdır
   </footer>
 
-  <!-- Basit JS Filtreleme -->
+  <!-- Basit JS Filtreleme ve Tarihe Göre Sıralama -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const categoryButtons = document.querySelectorAll('.category-nav button');
       const articleGrid = document.getElementById('articleGrid');
-      const articles = articleGrid.querySelectorAll('.article-card');
+      // NodeList'i diziye çevirelim ki sort yapabilelim
+      const articles = Array.from(articleGrid.querySelectorAll('.article-card'));
 
+      // Makaleleri tarihine göre (yeni -> eski) sıralayacak fonksiyon
+      // meta içindeki "Tarih: dd.mm.yyyy" formatını parse ediyoruz:
+      function parseDateFromMeta(metaText) {
+        // metaText örnek: "Yazar: X | Tarih: 01.05.2024"
+        const dateMatch = metaText.match(/Tarih:\s*(\d{2})\.(\d{2})\.(\d{4})/);
+        if (dateMatch) {
+          // Sırasıyla Gün, Ay, Yıl
+          const day = parseInt(dateMatch[1]);
+          const month = parseInt(dateMatch[2]) - 1; // JS'de ay 0-11
+          const year = parseInt(dateMatch[3]);
+          return new Date(year, month, day);
+        }
+        // Geçerli tarih bulunmazsa, varsayılan eski bir tarih döndürelim
+        return new Date(0);
+      }
+
+      // Makaleleri tarihine göre sıralıyoruz (en yeni en önde)
+      articles.sort((a, b) => {
+        const metaA = a.querySelector('.article-meta').textContent;
+        const metaB = b.querySelector('.article-meta').textContent;
+        const dateA = parseDateFromMeta(metaA);
+        const dateB = parseDateFromMeta(metaB);
+        return dateB - dateA; // b daha yeni ise pozitif döner, sıralamada öne geçer
+      });
+
+      // Sıralanmış makaleleri DOM'a tekrar ekleyelim
+      articles.forEach(article => articleGrid.appendChild(article));
+
+      // Kategori / Filtre Butonları
       categoryButtons.forEach(btn => {
         btn.addEventListener('click', () => {
           const cat = btn.getAttribute('data-cat');
